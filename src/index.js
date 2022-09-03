@@ -1,2 +1,2 @@
-import "./assets/js/data"
-import $ from "jquery"
+import "./assets/js/data";
+import "./assets/css/style.scss";

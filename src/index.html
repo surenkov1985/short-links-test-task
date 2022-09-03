@@ -8,12 +8,90 @@
 	</head>
 	<body>
 		<header>
-			<a href="/">About</a>
-			<a href="login.html">Login</a>
-			<a href="register.html">Register</a>
-			<a href="squeeze.html">Squeeze</a>
-			<a href="statistics.html">Statistics</a>
+			<button class="loginBtn">Login</button>
+			<button class="outBtn">Outlet</button>
 		</header>
-		<main>A</main>
+		<main>
+			<div class="indexPage active">
+				<h1>HELLO!!!</h1>
+				<div>
+					<p>
+						Have an account? <button class="loginBtn">LOGIN</button>
+					</p>
+				</div>
+				<p>No account? <button class="registerBtn">REGISTER</button></p>
+			</div>
+			<div class="loginPage">
+				<h1>LOGIN</h1>
+				<form id="loginForm">
+					<label>
+						<p>Username</p>
+						<input
+							type="text"
+							name="username"
+							placeholder="Username"
+							required
+						/>
+					</label>
+					<label>
+						<p>password</p>
+						<input
+							type="text"
+							name="password"
+							placeholder="password"
+							required
+						/>
+					</label>
+					<br />
+					<input type="submit" value="login" />
+				</form>
+				<p>No account? <button class="registerBtn">REGISTER</button></p>
+			</div>
+			<div class="registerPage">
+				<h1>REGISTER</h1>
+				<form id="registerForm">
+					<label>
+						<p>Username</p>
+						<input
+							type="text"
+							name="username"
+							placeholder="Username"
+						/>
+					</label>
+					<label>
+						<p>Password</p>
+						<input
+							type="text"
+							name="password"
+							placeholder="Password"
+						/>
+					</label>
+					<br />
+					<input type="submit" value="register" />
+				</form>
+				<p>Have an account? <button class="loginBtn">LOGIN</button></p>
+			</div>
+
+			<div class="statisticsPage">
+				<h1>STATISTICS</h1>
+
+				<form id="squeezeForm">
+					<label>
+						<p>Link</p>
+						<input type="text" name="link" placeholder="Link" />
+					</label>
+					<input type="submit" value="OK" />
+				</form>
+				<br />
+				<br />
+                <div class="statistic">
+                    <ul class="statisticList">
+                        <li class="StatisticItem">
+                            div
+                        </li>
+                    </ul>
+                </div>
+			</div>
+		</main>
 	</body>
 </html>
