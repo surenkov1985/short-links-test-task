@@ -1,1 +1,0 @@
-# short-links-test-task
