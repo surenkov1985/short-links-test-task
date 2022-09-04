@@ -117,7 +117,7 @@ document.addEventListener("DOMContentLoaded", () => {
 			statisticsList.appendChild(statisticsItem);
 
 			copy.addEventListener("click", () => {
-				localStorage.setItem("link", url);
+				navigator.clipboard.writeText(url);
 			});
 		});
 
