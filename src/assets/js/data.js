@@ -8,10 +8,10 @@ const fetchApi = (url = "", body = null, method, headers) => {
 	});
 };
 
-// document.addEventListener("DOMContentLoaded", () => {
-const order = "asc_short",
+let order = "asc_short",
 	offset = 0,
-	limit = 5;
+	limit = 5,
+	counter = 0;
 
 // FORMS
 const LoginForm = document.getElementById("loginForm"),
@@ -32,7 +32,9 @@ let statisticsItem, linkEl, shortEl, counterEl, target, copy, targetBlock;
 // BUTTONS
 const loginButtons = document.querySelectorAll(".loginBtn"),
 	registerButton = document.querySelectorAll(".registerBtn"),
-	logoutButton = document.querySelector(".logoutBtn");
+	logoutButton = document.querySelector(".logoutBtn"),
+	prevControlBtn = document.querySelector(".prev"),
+	nextControlBtn = document.querySelector(".next");
 
 if (localStorage.hasOwnProperty("user")) {
 	statisticsPage.classList.toggle("active");
@@ -50,6 +52,21 @@ logoutButton.addEventListener("click", (e) => {
 	loginPage.classList.toggle("active");
 	header.classList.remove("active");
 	statisticsPage.classList.remove("active");
+});
+
+prevControlBtn.addEventListener("click", () => {
+	if (offset === 0) {
+		return;
+	}
+	offset -= limit;
+	console.log(offset);
+	getStatistics(order, offset, limit);
+});
+
+nextControlBtn.addEventListener("click", () => {
+	offset += limit;
+	console.log(offset);
+	getStatistics(order, offset, limit);
 });
 
 function setUrl(data) {
@@ -254,4 +271,3 @@ SqueezeForm?.addEventListener("submit", (e) => {
 		})
 		.catch((err) => console.log(err));
 });
-// });
