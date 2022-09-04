@@ -104,6 +104,7 @@ document.addEventListener("DOMContentLoaded", () => {
 			copy.className = "linkCopyBtn";
 
 			target.href = url;
+			target.target = "_blank";
 			target.innerHTML = url;
 			copy.innerHTML = "Copy";
 			linkEl.innerHTML = res.target;
