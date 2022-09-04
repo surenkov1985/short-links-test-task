@@ -10,8 +10,8 @@ const fetchApi = (url = "", body = null, method, headers) => {
 
 // document.addEventListener("DOMContentLoaded", () => {
 const order = "asc_short",
-	offset = "0",
-	limit = "5";
+	offset = 0,
+	limit = 5;
 
 // FORMS
 const LoginForm = document.getElementById("loginForm"),
@@ -72,9 +72,6 @@ function getStatistics(order, offset, limit) {
 
 	fetchApi(`statistics?${Url}`, null, "GET", headers)
 		.then((res) => {
-			if (!res.ok) {
-				console.log(res);
-			}
 			return res.json();
 		})
 		.then((data) => buildStatistics(data))
