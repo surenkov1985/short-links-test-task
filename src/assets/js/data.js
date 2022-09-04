@@ -1,5 +1,7 @@
+const BASEURL = "http://79.143.31.216/";
+
 const fetchApi = (url = "", body = null, method, headers) => {
-	return fetch("http://79.143.31.216/" + url, {
+	return fetch(BASEURL + url, {
 		method: method,
 		body: body,
 		headers: headers,
@@ -7,6 +9,10 @@ const fetchApi = (url = "", body = null, method, headers) => {
 };
 
 document.addEventListener("DOMContentLoaded", () => {
+	const order = "asc_short",
+		offset = "0",
+		limit = "5";
+
 	// FORMS
 	const LoginForm = document.getElementById("loginForm"),
 		RegisterForm = document.getElementById("registerForm"),
@@ -38,19 +44,78 @@ document.addEventListener("DOMContentLoaded", () => {
 		indexPage.classList.toggle("active");
 	});
 
+	const getStatistics = (order, offset, limit) => {
+		const formData = {
+			order: order,
+			offset: offset,
+			limit: limit,
+		};
+
+		console.log(formData);
+		const Url = new URLSearchParams([
+			...Object.entries(formData),
+		]).toString();
+		const userData = JSON.parse(localStorage.getItem("user"));
+		const headers = {
+			"Content-Type": "application/json",
+			Authorization: userData.token_type + " " + userData.access_token,
+		};
+
+		fetchApi(`statistics?${Url}`, null, "GET", headers)
+			.then((data) => buildStatistics(data))
+			.catch((err) => console.log(err));
+	};
+
+	const buildStatistics = (data) => {
+	
+		const statisticListHead = document.querySelector(".statisticListHead");
+		const statisticsList = document.createElement("ul");
+		statisticsList.className = "statisticList";
+		statisticListHead.innerHTML = "";
+
+		data.map((res) => {
+			const statisticsItem = document.createElement("li"),
+				linkEl = document.createElement("div"),
+				shortEl = document.createElement("div"),
+				counterEl = document.createElement("div");
+
+			linkEl.className = "linkEl";
+			shortEl.className = "shortEl";
+			counterEl.className = "counterEl";
+			statisticsItem.className = "statisticItem";
+
+			shortEl.innerHTML = res.short;
+			linkEl.innerHTML = res.target;
+			counterEl.innerHTML = res.counter;
+
+			statisticsItem.appendChild(linkEl);
+			statisticsItem.appendChild(shortEl);
+			statisticsItem.appendChild(counterEl);
+			statisticsList.appendChild(statisticsItem);
+		});
+
+		statisticListHead.appendChild(statisticsList);
+	};
+
+	getStatistics(order, offset, limit);
+
 	loginButtons.forEach((btn) => {
 		btn.addEventListener("click", () => {
-			indexPage.classList.remove("active");
-			registerPage.classList.remove("active");
-			loginPage.classList.toggle("active");
+			if (!localStorage.hasOwnProperty("user")) {
+				indexPage.classList.remove("active");
+				registerPage.classList.remove("active");
+				loginPage.classList.toggle("active");
+			}
 		});
 	});
 
 	registerButton.forEach((btn) => {
 		btn.addEventListener("click", () => {
-			indexPage.classList.remove("active");
-			loginPage.classList.remove("active");
-			registerPage.classList.toggle("active");
+			if (!localStorage.hasOwnProperty("user")) {
+				indexPage.classList.remove("active");
+				loginPage.classList.remove("active");
+				registerPage.classList.toggle("active");
+			}
 		});
 	});
 
@@ -79,8 +144,9 @@ document.addEventListener("DOMContentLoaded", () => {
 		})
 			.then((data) => {
 				localStorage.setItem("user", JSON.stringify(data));
-				registerPage.classList.remove("active");
+				loginPage.classList.remove("active");
 				statisticsPage.classList.toggle("active");
+				getStatistics(order, offset, limit);
 			})
 			.catch((err) => console.log(err));
 	});
@@ -136,49 +202,7 @@ document.addEventListener("DOMContentLoaded", () => {
 		};
 
 		fetchApi(`squeeze?${Url}`, null, "POST", headers)
-			.then((data) => console.log(data))
+			.then((data) => getStatistics(order, offset, limit))
 			.catch((err) => console.log(err));
-	});
-
-	StatisticForm?.addEventListener("submit", (e) => {
-		e.preventDefault();
-
-		const order = StatisticForm.querySelector('[name="order"]');
-		const offset = StatisticForm.querySelector('[name="offset"]');
-		const limit = StatisticForm.querySelector('[name="limit"]');
-
-		const formData = {
-			order: order.value,
-			offset: offset.value,
-			limit: limit.value,
-		};
-
-		const Url = new URLSearchParams([
-			...Object.entries(formData),
-		]).toString();
-		const userData = JSON.parse(localStorage.getItem("user"));
-		const headers = {
-			"Content-Type": "application/json",
-			Authorization: userData.token_type + " " + userData.access_token,
-		};
-
-		fetchApi(`statistics?${Url}`, null, "GET", headers)
-			.then((data) => console.log(data))
-			.catch((err) => console.log(err));
-	});
-
-	RedirectForm?.addEventListener("submit", (e) => {
-		e.preventDefault();
-
-		const key = RedirectForm.querySelector('[name="key"]');
-
-		const formData = {
-			key: key.value,
-		};
-
-		window.open(`http://79.143.31.216/s/${key.value}`, "_blank").focus();
-		const Url = new URLSearchParams([
-			...Object.entries(formData),
-		]).toString();
 	});
 });

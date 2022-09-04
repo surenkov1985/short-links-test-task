@@ -24,22 +24,6 @@ const build = {
 			filename: "index.html",
 			template: "index.html",
 		}),
-		new HtmlWebpackPlugin({
-			filename: "login.html",
-			template: "login.html",
-		}),
-		new HtmlWebpackPlugin({
-			filename: "register.html",
-			template: "register.html",
-		}),
-		new HtmlWebpackPlugin({
-			filename: "statistics.html",
-			template: "statistics.html",
-		}),
-		new HtmlWebpackPlugin({
-			filename: "squeeze.html",
-			template: "squeeze.html",
-		}),
 		new CopyPlugin({
 			patterns: [{ from: "static", to: "", noErrorOnMissing: true }],
 		}),
