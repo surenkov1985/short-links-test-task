@@ -71,7 +71,7 @@ document.addEventListener("DOMContentLoaded", () => {
 			.then((res) => {
 				console.log(res);
 				if (!res.ok) {
-					console.log(res.statusText);
+					console.log(res);
 				}
 				return res.json();
 			})
@@ -96,7 +96,7 @@ document.addEventListener("DOMContentLoaded", () => {
 			counterEl.className = "counterEl";
 			statisticsItem.className = "statisticItem";
 
-			shortEl.innerHTML = res.short;
+			shortEl.innerHTML = BASEURL + "s/" + res.short;
 			linkEl.innerHTML = res.target;
 			counterEl.innerHTML = res.counter;
 
@@ -237,6 +237,9 @@ document.addEventListener("DOMContentLoaded", () => {
 		};
 
 		fetchApi(`squeeze?${Url}`, null, "POST", headers)
+			.then((res) => {
+				return res.json();
+			})
 			.then((data) => getStatistics(order, offset, limit))
 			.catch((err) => console.log(err));
 	});
