@@ -88,19 +88,24 @@ document.addEventListener("DOMContentLoaded", () => {
 		data.map((res) => {
 			const statisticsItem = document.createElement("li"),
 				linkEl = document.createElement("div"),
-				shortEl = document.createElement("a"),
-				counterEl = document.createElement("div");
+				shortEl = document.createElement("div"),
+				counterEl = document.createElement("div"),
+				target = document.createElement("a"),
+				copy = document.createElement("button");
 
 			linkEl.className = "linkEl";
 			shortEl.className = "shortEl";
 			counterEl.className = "counterEl";
 			statisticsItem.className = "statisticItem";
+			copy.className = "linkCopyBtn";
 
-			shortEl.href = BASEURL + "s/" + res.short;
-			shortEl.innerHTML = BASEURL + "s/" + res.short;
+			target.href = BASEURL + "s/" + res.short;
+			target.innerHTML = BASEURL + "s/" + res.short;
+			copy.innerHTML = "Copy";
 			linkEl.innerHTML = res.target;
 			counterEl.innerHTML = res.counter;
-
+			shortEl.appendChild(target);
+			shortEl.appendChild(copy);
 			statisticsItem.appendChild(linkEl);
 			statisticsItem.appendChild(shortEl);
 			statisticsItem.appendChild(counterEl);
@@ -223,9 +228,10 @@ document.addEventListener("DOMContentLoaded", () => {
 		e.preventDefault();
 
 		const link = SqueezeForm.querySelector('[name="link"]');
+		const regUrl = /^http(s)?:\/\//;
 
 		const formData = {
-			link: link.value,
+			link: regUrl.test(link.value) ? link.value : "http://" + link.value,
 		};
 
 		const Url = new URLSearchParams([
@@ -241,7 +247,10 @@ document.addEventListener("DOMContentLoaded", () => {
 			.then((res) => {
 				return res.json();
 			})
-			.then((data) => getStatistics(order, offset, limit))
+			.then((data) => {
+				getStatistics(order, offset, limit);
+				link.value = "";
+			})
 			.catch((err) => console.log(err));
 	});
 });

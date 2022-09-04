@@ -120,10 +120,25 @@ li>div {
     }
 }
 
+li>a {
+    width: 30%;
+
+    &:not(:first-child) {
+        border-left: 1px solid #000;
+    }
+}
+
+
 .statisticHeader>div {
     width: 30%;
 
     &:not(:first-child) {
         border-left: 1px solid #000;
     }
+}
+
+.shortEl {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
