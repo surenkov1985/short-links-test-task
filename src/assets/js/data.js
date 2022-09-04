@@ -5,10 +5,6 @@ const fetchApi = (url = "", body = null, method, headers) => {
 		method: method,
 		body: body,
 		headers: headers,
-	}).then((res) => {
-		if (res.ok) {
-			return res.json();
-		}
 	});
 };
 
@@ -22,7 +18,9 @@ document.addEventListener("DOMContentLoaded", () => {
 		RegisterForm = document.getElementById("registerForm"),
 		SqueezeForm = document.getElementById("squeezeForm"),
 		StatisticForm = document.getElementById("statisticForm"),
-		RedirectForm = document.getElementById("redirectForm");
+		RedirectForm = document.getElementById("redirectForm"),
+		Error = document.querySelector(".error"),
+		RegError = document.querySelector(".reg-error");
 
 	// PAGES
 	const loginPage = document.querySelector(".loginPage"),
@@ -71,6 +69,13 @@ document.addEventListener("DOMContentLoaded", () => {
 		};
 
 		fetchApi(`statistics?${Url}`, null, "GET", headers)
+			.then((res) => {
+				console.log(res);
+				if (!res.ok) {
+					console.log(res.statusText);
+				}
+				return res.json();
+			})
 			.then((data) => buildStatistics(data))
 			.catch((err) => console.log(err));
 	}
@@ -146,11 +151,22 @@ document.addEventListener("DOMContentLoaded", () => {
 		fetchApi("login", dataString, "POST", {
 			"Content-Type": "application/x-www-form-urlencoded",
 		})
+			.then((res) => {
+				console.log(res);
+
+				return res.json();
+			})
 			.then((data) => {
-				localStorage.setItem("user", JSON.stringify(data));
-				loginPage.classList.remove("active");
-				header.classList.toggle("active");
-				statisticsPage.classList.toggle("active");
+				if (data.access_token) {
+					localStorage.setItem("user", JSON.stringify(data));
+					registerPage.classList.remove("active");
+					loginPage.classList.remove("active");
+					statisticsPage.classList.toggle("active");
+					Error.innerHTML = "";
+				}
+				Error.innerHTML = data.detail;
+			})
+			.then(() => {
 				getStatistics(order, offset, limit);
 			})
 			.catch((err) => console.log(err));
@@ -174,16 +190,36 @@ document.addEventListener("DOMContentLoaded", () => {
 		fetchApi(`register?${dataString}`, JSON.stringify(formData), "POST", {
 			"Content-Type": "application/json",
 		})
+			.then((res) => {
+				return res.json();
+			})
 			.then((data) => {
-				fetchApi("login", dataString, "POST", {
-					"Content-Type": "application/x-www-form-urlencoded",
-				})
-					.then((data) => {
-						localStorage.setItem("user", JSON.stringify(data));
-						registerPage.classList.remove("active");
-						statisticsPage.classList.toggle("active");
+				if (data.username) {
+					fetchApi("login", dataString, "POST", {
+						"Content-Type": "application/x-www-form-urlencoded",
 					})
-					.catch((err) => console.log(err));
+						.then((res) => {
+							return res.json();
+						})
+						.then((data) => {
+							if (data.access_token) {
+								localStorage.setItem(
+									"user",
+									JSON.stringify(data)
+								);
+								registerPage.classList.remove("active");
+								statisticsPage.classList.toggle("active");
+								Error.innerHTML = "data.detail";
+							}
+							Error.innerHTML = data.detail;
+						})
+						.then(() => {
+							getStatistics(order, offset, limit);
+						})
+						.catch((err) => console.log(err));
+					RegError.innerHTML = "";
+				}
+				RegError.innerHTML = data.detail;
 			})
 			.catch((err) => console.log(err));
 	});
