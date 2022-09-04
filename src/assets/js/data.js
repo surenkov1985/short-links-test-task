@@ -26,6 +26,9 @@ document.addEventListener("DOMContentLoaded", () => {
 		header = document.querySelector(".header"),
 		statisticsPage = document.querySelector(".statisticsPage");
 
+	//
+	let statisticsItem, linkEl, shortEl, counterEl, target, copy, targetBlock;
+
 	// BUTTONS
 	const loginButtons = document.querySelectorAll(".loginBtn"),
 		registerButton = document.querySelectorAll(".registerBtn"),
@@ -86,12 +89,13 @@ document.addEventListener("DOMContentLoaded", () => {
 		statisticListHead.innerHTML = "";
 
 		data.map((res) => {
-			const statisticsItem = document.createElement("li"),
-				linkEl = document.createElement("div"),
-				shortEl = document.createElement("div"),
-				counterEl = document.createElement("div"),
-				target = document.createElement("a"),
-				copy = document.createElement("button");
+			const url = BASEURL + "s/" + res.short;
+			statisticsItem = document.createElement("li");
+			linkEl = document.createElement("div");
+			shortEl = document.createElement("div");
+			counterEl = document.createElement("div");
+			target = document.createElement("a");
+			copy = document.createElement("button");
 
 			linkEl.className = "linkEl";
 			shortEl.className = "shortEl";
@@ -99,8 +103,8 @@ document.addEventListener("DOMContentLoaded", () => {
 			statisticsItem.className = "statisticItem";
 			copy.className = "linkCopyBtn";
 
-			target.href = BASEURL + "s/" + res.short;
-			target.innerHTML = BASEURL + "s/" + res.short;
+			target.href = url;
+			target.innerHTML = url;
 			copy.innerHTML = "Copy";
 			linkEl.innerHTML = res.target;
 			counterEl.innerHTML = res.counter;
@@ -110,9 +114,14 @@ document.addEventListener("DOMContentLoaded", () => {
 			statisticsItem.appendChild(shortEl);
 			statisticsItem.appendChild(counterEl);
 			statisticsList.appendChild(statisticsItem);
+
+			copy.addEventListener("click", () => {
+				localStorage.setItem("link", url);
+			});
 		});
 
 		statisticListHead.appendChild(statisticsList);
+		targetBlock = document.querySelectorAll(".shortEl");
 	}
 
 	loginButtons.forEach((btn) => {
