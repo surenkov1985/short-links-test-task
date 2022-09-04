@@ -88,7 +88,7 @@ document.addEventListener("DOMContentLoaded", () => {
 		data.map((res) => {
 			const statisticsItem = document.createElement("li"),
 				linkEl = document.createElement("div"),
-				shortEl = document.createElement("div"),
+				shortEl = document.createElement("a"),
 				counterEl = document.createElement("div");
 
 			linkEl.className = "linkEl";
@@ -96,6 +96,7 @@ document.addEventListener("DOMContentLoaded", () => {
 			counterEl.className = "counterEl";
 			statisticsItem.className = "statisticItem";
 
+			shortEl.href = BASEURL + "s/" + res.short;
 			shortEl.innerHTML = BASEURL + "s/" + res.short;
 			linkEl.innerHTML = res.target;
 			counterEl.innerHTML = res.counter;
