@@ -17,8 +17,6 @@ document.addEventListener("DOMContentLoaded", () => {
 	const LoginForm = document.getElementById("loginForm"),
 		RegisterForm = document.getElementById("registerForm"),
 		SqueezeForm = document.getElementById("squeezeForm"),
-		StatisticForm = document.getElementById("statisticForm"),
-		RedirectForm = document.getElementById("redirectForm"),
 		Error = document.querySelector(".error"),
 		RegError = document.querySelector(".reg-error");
 
@@ -51,6 +49,10 @@ document.addEventListener("DOMContentLoaded", () => {
 		statisticsPage.classList.remove("active");
 	});
 
+	function setUrl(data) {
+		return new URLSearchParams([...Object.entries(data)]).toString();
+	}
+
 	function getStatistics(order, offset, limit) {
 		const formData = {
 			order: order,
@@ -58,10 +60,7 @@ document.addEventListener("DOMContentLoaded", () => {
 			limit: limit,
 		};
 
-		console.log(formData);
-		const Url = new URLSearchParams([
-			...Object.entries(formData),
-		]).toString();
+		const Url = setUrl(formData);
 		const userData = JSON.parse(localStorage.getItem("user"));
 		const headers = {
 			"Content-Type": "application/json",
@@ -136,17 +135,12 @@ document.addEventListener("DOMContentLoaded", () => {
 		const username = LoginForm.querySelector('[name="username"]'),
 			password = LoginForm.querySelector('[name="password"]');
 
-		const data = new FormData(LoginForm);
-		console.log(data.get("password"));
-
 		const formData = {
 			username: username.value,
 			password: password.value,
 		};
 
-		const dataString = new URLSearchParams([
-			...Object.entries(formData),
-		]).toString();
+		const dataString = setUrl(formData);
 
 		fetchApi("login", dataString, "POST", {
 			"Content-Type": "application/x-www-form-urlencoded",
@@ -162,6 +156,7 @@ document.addEventListener("DOMContentLoaded", () => {
 					registerPage.classList.remove("active");
 					loginPage.classList.remove("active");
 					statisticsPage.classList.toggle("active");
+					header.classList.toggle("active");
 					Error.innerHTML = "";
 				}
 				Error.innerHTML = data.detail;
@@ -183,9 +178,7 @@ document.addEventListener("DOMContentLoaded", () => {
 			password: password.value,
 		};
 
-		const dataString = new URLSearchParams([
-			...Object.entries(formData),
-		]).toString();
+		const dataString = setUrl(formData);
 
 		fetchApi(`register?${dataString}`, JSON.stringify(formData), "POST", {
 			"Content-Type": "application/json",
@@ -209,6 +202,7 @@ document.addEventListener("DOMContentLoaded", () => {
 								);
 								registerPage.classList.remove("active");
 								statisticsPage.classList.toggle("active");
+								header.classList.toggle("active");
 								Error.innerHTML = "data.detail";
 							}
 							Error.innerHTML = data.detail;
