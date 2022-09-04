@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", () => {
 	// PAGES
 	const loginPage = document.querySelector(".loginPage"),
 		registerPage = document.querySelector(".registerPage"),
-		indexPage = document.querySelector(".indexPage"),
+		header = document.querySelector(".header"),
 		statisticsPage = document.querySelector(".statisticsPage");
 
 	// BUTTONS
@@ -33,18 +33,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
 	if (localStorage.hasOwnProperty("user")) {
 		statisticsPage.classList.toggle("active");
-		indexPage.classList.toggle("active");
+		loginPage.classList.remove("active");
+		header.classList.toggle("active");
+		getStatistics(order, offset, limit);
 	}
 
 	// BUTTONS EVENT LISTENERS
 
 	outletButton.addEventListener("click", () => {
 		localStorage.removeItem("user");
-		statisticsPage.classList.toggle("active");
-		indexPage.classList.toggle("active");
+		loginPage.classList.toggle("active");
+		header.classList.remove("active");
 	});
 
-	const getStatistics = (order, offset, limit) => {
+	function getStatistics(order, offset, limit) {
 		const formData = {
 			order: order,
 			offset: offset,
@@ -64,10 +66,9 @@ document.addEventListener("DOMContentLoaded", () => {
 		fetchApi(`statistics?${Url}`, null, "GET", headers)
 			.then((data) => buildStatistics(data))
 			.catch((err) => console.log(err));
-	};
+	}
 
-	const buildStatistics = (data) => {
-	
+	function buildStatistics(data) {
 		const statisticListHead = document.querySelector(".statisticListHead");
 		const statisticsList = document.createElement("ul");
 		statisticsList.className = "statisticList";
@@ -95,14 +96,11 @@ document.addEventListener("DOMContentLoaded", () => {
 		});
 
 		statisticListHead.appendChild(statisticsList);
-	};
-
-	getStatistics(order, offset, limit);
+	}
 
 	loginButtons.forEach((btn) => {
 		btn.addEventListener("click", () => {
 			if (!localStorage.hasOwnProperty("user")) {
-				indexPage.classList.remove("active");
 				registerPage.classList.remove("active");
 				loginPage.classList.toggle("active");
 			}
@@ -112,7 +110,6 @@ document.addEventListener("DOMContentLoaded", () => {
 	registerButton.forEach((btn) => {
 		btn.addEventListener("click", () => {
 			if (!localStorage.hasOwnProperty("user")) {
-				indexPage.classList.remove("active");
 				loginPage.classList.remove("active");
 				registerPage.classList.toggle("active");
 			}
@@ -145,6 +142,7 @@ document.addEventListener("DOMContentLoaded", () => {
 			.then((data) => {
 				localStorage.setItem("user", JSON.stringify(data));
 				loginPage.classList.remove("active");
+				header.classList.toggle("active");
 				statisticsPage.classList.toggle("active");
 				getStatistics(order, offset, limit);
 			})

@@ -7,12 +7,11 @@
 		<title>Document</title>
 	</head>
 	<body>
-		<header>
-			<button class="loginBtn">Login</button>
-			<button class="outBtn">Outlet</button>
+		<header class="header">
+			<a href="/" class="outBtn">Logout</a>
 		</header>
 		<main>
-			<div class="indexPage active">
+			<!-- <div class="indexPage active">
 				<h1>HELLO!!!</h1>
 				<div>
 					<p>
@@ -20,8 +19,8 @@
 					</p>
 				</div>
 				<p>No account? <button class="registerBtn">REGISTER</button></p>
-			</div>
-			<div class="loginPage">
+			</div> -->
+			<div class="loginPage active">
 				<h1>LOGIN</h1>
 				<form id="loginForm">
 					<label>
@@ -43,9 +42,12 @@
 						/>
 					</label>
 					<br />
-					<input type="submit" value="login" />
+					<input type="submit" value="Sign In" />
 				</form>
-				<p>No account? <button class="registerBtn">REGISTER</button></p>
+				<p>
+					Don`t have an account?
+					<button class="registerBtn">Sign Up</button>
+				</p>
 			</div>
 			<div class="registerPage">
 				<h1>REGISTER</h1>
@@ -67,9 +69,11 @@
 						/>
 					</label>
 					<br />
-					<input type="submit" value="register" />
+					<input type="submit" value="Sign Up" />
 				</form>
-				<p>Have an account? <button class="loginBtn">LOGIN</button></p>
+				<p>
+					Have an account? <button class="loginBtn">Sign In</button>
+				</p>
 			</div>
 
 			<div class="statisticsPage">
