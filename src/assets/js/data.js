@@ -5,7 +5,11 @@ const fetchApi = (url = "", body = null, method, headers) => {
 		method: method,
 		body: body,
 		headers: headers,
-	}).then((res) => res.json());
+	}).then((res) => {
+		if (res.ok) {
+			return res.json();
+		}
+	});
 };
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -40,10 +44,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
 	// BUTTONS EVENT LISTENERS
 
-	outletButton.addEventListener("click", () => {
+	outletButton.addEventListener("click", (e) => {
+		e.preventDefault();
+
 		localStorage.removeItem("user");
 		loginPage.classList.toggle("active");
 		header.classList.remove("active");
+		statisticsPage.classList.remove("active");
 	});
 
 	function getStatistics(order, offset, limit) {
