@@ -8,10 +8,16 @@ const fetchApi = (url = "", body = null, method, headers) => {
 	});
 };
 
-let order = "asc_short",
+let order = [
+		{ order: "asc", val: "short" },
+		{ order: "asc", val: "target" },
+		{ order: "asc", val: "counter" },
+	],
 	offset = 0,
 	limit = 5,
-	counter = 0;
+	counter = 0,
+	ascIcon = "&#8710",
+	descIcon = "&#8711";
 
 // FORMS
 const LoginForm = document.getElementById("loginForm"),
@@ -34,7 +40,8 @@ const loginButtons = document.querySelectorAll(".loginBtn"),
 	registerButton = document.querySelectorAll(".registerBtn"),
 	logoutButton = document.querySelector(".logoutBtn"),
 	prevControlBtn = document.querySelector(".prev"),
-	nextControlBtn = document.querySelector(".next");
+	nextControlBtn = document.querySelector(".next"),
+	sortButtons = document.querySelectorAll(".sortBtn");
 
 if (localStorage.hasOwnProperty("user")) {
 	statisticsPage.classList.toggle("active");
@@ -63,6 +70,27 @@ prevControlBtn.addEventListener("click", () => {
 	getStatistics(order, offset, limit);
 });
 
+sortButtons.forEach((button) => {
+	button.addEventListener("click", function (e) {
+		// (button.dataset.sort);
+		order.map((item) => {
+			if (item.val === button.dataset.val) {
+				if (item.order === "asc") {
+					item.order = "desc";
+					button.dataset.order = "desc";
+					button.innerHTML = descIcon;
+				} else {
+					item.order = "asc";
+					button.dataset.order = "asc";
+					button.innerHTML = ascIcon;
+				}
+			}
+		});
+
+		getStatistics(order, offset, limit);
+	});
+});
+
 nextControlBtn.addEventListener("click", () => {
 	offset += limit;
 	console.log(offset);
@@ -75,12 +103,17 @@ function setUrl(data) {
 
 function getStatistics(order, offset, limit) {
 	const formData = {
-		order: order,
 		offset: offset,
 		limit: limit,
 	};
+	const orderUrl = [];
+	console.log(formData);
+	order.forEach((item) =>
+		orderUrl.push(`order=${item.order + "_" + item.val}`)
+	);
 
-	const Url = setUrl(formData);
+	const Url = orderUrl.join("&") + "&" + setUrl(formData);
+	console.log(Url);
 	const userData = JSON.parse(localStorage.getItem("user"));
 	const headers = {
 		"Content-Type": "application/json",

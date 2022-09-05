@@ -131,9 +131,20 @@ li>a {
 
 .statisticHeader>div {
     width: 30%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 
     &:not(:first-child) {
         border-left: 1px solid #000;
+    }
+}
+
+.sortBtn {
+    display: none;
+
+    &.active {
+        display: block;
     }
 }
 
