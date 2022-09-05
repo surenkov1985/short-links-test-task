@@ -72,7 +72,6 @@ prevControlBtn.addEventListener("click", () => {
 
 sortButtons.forEach((button) => {
 	button.addEventListener("click", function (e) {
-		// (button.dataset.sort);
 		order.map((item) => {
 			if (item.val === button.dataset.val) {
 				if (item.order === "asc") {
@@ -107,13 +106,11 @@ function getStatistics(order, offset, limit) {
 		limit: limit,
 	};
 	const orderUrl = [];
-	console.log(formData);
 	order.forEach((item) =>
 		orderUrl.push(`order=${item.order + "_" + item.val}`)
 	);
 
 	const Url = orderUrl.join("&") + "&" + setUrl(formData);
-	console.log(Url);
 	const userData = JSON.parse(localStorage.getItem("user"));
 	const headers = {
 		"Content-Type": "application/json",
