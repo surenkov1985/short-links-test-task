@@ -43,7 +43,7 @@
 						/>
 					</label>
 					<br />
-					<input type="submit" value="Sign In" />
+					<input class="loginSubmit" type="submit" value="Sign In" />
 				</form>
 				<p>
 					Don`t have an account?
@@ -71,7 +71,7 @@
 						/>
 					</label>
 					<br />
-					<input type="submit" value="Sign Up" />
+					<input class="registerSubmit" type="submit" value="Sign Up" />
 				</form>
 				<p>
 					Have an account? <button class="loginBtn">Sign In</button>
@@ -86,7 +86,8 @@
 						<p>Link</p>
 						<input type="text" name="link" placeholder="Link" />
 					</label>
-					<input type="submit" value="OK" />
+					<input class="squeezeSubmit" type="submit" value="OK" />
+					<div class="squeezeError" style="color: red;"></div>
 				</form>
 				<br />
 				<br />
@@ -95,17 +96,17 @@
 						<div class="linkHeader">
 							<span>Link</span>
 							<button data-order="asc" data-val="target" class="sortBtn asc active">&#8710</button>
-							<button class="sortBtn desc">&#8711</button>
+							<!-- <button class="sortBtn desc">&#8711</button> -->
 						</div>
 						<div class="shortHeader">
 							<span>Short</span>
 							<button data-order="asc" data-val="short" class="sortBtn asc active">&#8710</button>
-							<button class="sortBtn desc">&#8711</button>
+							<!-- <button class="sortBtn desc">&#8711</button> -->
 						</div>
 						<div class="counterHeader">
 							<span>Counter</span>
 							<button data-order="asc" data-val="counter" class="sortBtn asc active">&#8710</button>
-							<button class="sortBtn desc">&#8711</button>
+							<!-- <button class="sortBtn desc">&#8711</button> -->
 						</div>
 					</div>
 					<ul class="statisticListHead">

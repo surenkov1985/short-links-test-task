@@ -8,11 +8,7 @@ const fetchApi = (url = "", body = null, method, headers) => {
 	});
 };
 
-let order = [
-		{ order: "asc", val: "short" },
-		{ order: "asc", val: "target" },
-		{ order: "asc", val: "counter" },
-	],
+let order = { order: "asc", val: "target" },
 	offset = 0,
 	limit = 5,
 	counter = 0,
@@ -24,7 +20,11 @@ const LoginForm = document.getElementById("loginForm"),
 	RegisterForm = document.getElementById("registerForm"),
 	SqueezeForm = document.getElementById("squeezeForm"),
 	Error = document.querySelector(".error"),
-	RegError = document.querySelector(".reg-error");
+	RegError = document.querySelector(".reg-error"),
+	loginSubmit = document.querySelector(".loginSubmit"),
+	registerSubmit = document.querySelector(".registerSubmit"),
+	squeezeSubmit = document.querySelector(".squeezeSubmit"),
+	squeezeError = document.querySelector(".squeezeError");
 
 // PAGES
 const loginPage = document.querySelector(".loginPage"),
@@ -66,27 +66,64 @@ prevControlBtn.addEventListener("click", () => {
 		return;
 	}
 	offset -= limit;
-	console.log(offset);
 	getStatistics(order, offset, limit);
 });
 
 sortButtons.forEach((button) => {
 	button.addEventListener("click", function (e) {
-		order.map((item) => {
-			if (item.val === button.dataset.val) {
-				if (item.order === "asc") {
-					item.order = "desc";
-					button.dataset.order = "desc";
-					button.innerHTML = descIcon;
-				} else {
-					item.order = "asc";
-					button.dataset.order = "asc";
-					button.innerHTML = ascIcon;
-				}
+		order.val = button.dataset.val;
+		if (button.dataset.order === "asc") {
+			order.order = "desc";
+			button.dataset.order = "desc";
+			button.innerHTML = descIcon;
+		} else {
+			order.order = "asc";
+			button.dataset.order = "asc";
+			button.innerHTML = ascIcon;
+		}
+		sortButtons.forEach((button) => {
+			if (button.dataset.val !== order.val) {
+				button.dataset.order = "asc";
+				button.innerHTML = ascIcon;
 			}
+			button.setAttribute("disabled", true);
 		});
 
-		getStatistics(order, offset, limit);
+		const formData = {
+			offset: offset,
+			limit: limit,
+		};
+		const orderUrl = `order=${order.order + "_" + order.val}`;
+
+		const Url = orderUrl + "&" + setUrl(formData);
+		const userData = JSON.parse(localStorage.getItem("user"));
+		const headers = {
+			"Content-Type": "application/json",
+			Authorization: userData.token_type + " " + userData.access_token,
+		};
+
+		fetchApi(`statistics?${Url}`, null, "GET", headers)
+			.then((res) => {
+				if (res.status < 400) {
+					return res.json();
+				} else {
+					let error = new Error(res.statusText);
+					console.log(res.statusText);
+					sortButtons.forEach((button) => {
+						button.removeAttribute("disabled");
+					});
+					throw error;
+				}
+			})
+			.then((data) => {
+				if (data.lengt !== 0) {
+					buildStatistics(data);
+					sortButtons.forEach((button) => {
+						button.removeAttribute("disabled");
+					});
+				}
+			})
+			.catch((err) => console.log(err));
 	});
 });
 
@@ -105,12 +142,9 @@ function getStatistics(order, offset, limit) {
 		offset: offset,
 		limit: limit,
 	};
-	const orderUrl = [];
-	order.forEach((item) =>
-		orderUrl.push(`order=${item.order + "_" + item.val}`)
-	);
+	const orderUrl = `order=${order.order + "_" + order.val}`;
 
-	const Url = orderUrl.join("&") + "&" + setUrl(formData);
+	const Url = orderUrl + "&" + setUrl(formData);
 	const userData = JSON.parse(localStorage.getItem("user"));
 	const headers = {
 		"Content-Type": "application/json",
@@ -121,7 +155,11 @@ function getStatistics(order, offset, limit) {
 		.then((res) => {
 			return res.json();
 		})
-		.then((data) => buildStatistics(data))
+		.then((data) => {
+			if (data.lengt !== 0) {
+				buildStatistics(data);
+			}
+		})
 		.catch((err) => console.log(err));
 }
 
@@ -200,6 +238,7 @@ LoginForm?.addEventListener("submit", (e) => {
 	};
 
 	const dataString = setUrl(formData);
+	loginSubmit.setAttribute("disabled", true);
 
 	fetchApi("login", dataString, "POST", {
 		"Content-Type": "application/x-www-form-urlencoded",
@@ -223,7 +262,12 @@ LoginForm?.addEventListener("submit", (e) => {
 		.then(() => {
 			getStatistics(order, offset, limit);
 		})
-		.catch((err) => console.log(err));
+		.catch((err) => {
+			Error.innerHTML = "Server is not available";
+		})
+		.finally(() => {
+			loginSubmit.removeAttribute("disabled");
+		});
 });
 
 RegisterForm?.addEventListener("submit", (e) => {
@@ -236,6 +280,8 @@ RegisterForm?.addEventListener("submit", (e) => {
 		username: username.value,
 		password: password.value,
 	};
+
+	registerSubmit.setAttribute("disabled", true);
 
 	const dataString = setUrl(formData);
 
@@ -271,7 +317,12 @@ RegisterForm?.addEventListener("submit", (e) => {
 			}
 			RegError.innerHTML = data.detail;
 		})
-		.catch((err) => console.log(err));
+		.catch((err) => {
+			Error.innerHTML = "Server is not available";
+		})
+		.finally(() => {
+			registerSubmit.removeAttribute("disabled");
+		});
 });
 
 SqueezeForm?.addEventListener("submit", (e) => {
@@ -290,14 +341,23 @@ SqueezeForm?.addEventListener("submit", (e) => {
 		"Content-Type": "application/json",
 		Authorization: userData.token_type + " " + userData.access_token,
 	};
+	squeezeSubmit.setAttribute("disabled", true);
+	squeezeError.innerHTML = "";
 
 	fetchApi(`squeeze?${Url}`, null, "POST", headers)
 		.then((res) => {
 			return res.json();
 		})
 		.then((data) => {
-			getStatistics(order, offset, limit);
-			link.value = "";
+			if (data.short) {
+				getStatistics(order, offset, limit);
+				link.value = "";
+			} else {
+				squeezeError.innerHTML = data.detail[0].msg;
+			}
 		})
-		.catch((err) => console.log(err));
+		.catch((err) => (squeezeError.innerHTML = err))
+		.finally(() => {
+			squeezeSubmit.removeAttribute("disabled");
+		});
 });
