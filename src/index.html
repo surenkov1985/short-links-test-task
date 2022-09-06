@@ -11,15 +11,7 @@
 			<a href="" class="logoutBtn">Logout</a>
 		</header>
 		<main>
-			<!-- <div class="indexPage active">
-				<h1>HELLO!!!</h1>
-				<div>
-					<p>
-						Have an account? <button class="loginBtn">LOGIN</button>
-					</p>
-				</div>
-				<p>No account? <button class="registerBtn">REGISTER</button></p>
-			</div> -->
+			
 			<div class="loginPage active">
 				<h1>LOGIN</h1>
 				<form id="loginForm">
@@ -82,40 +74,42 @@
 				<h1>STATISTICS</h1>
 
 				<form id="squeezeForm">
+					<div class="squeezeError" style="color: red;"></div>
 					<label>
 						<p>Link</p>
 						<input type="text" name="link" placeholder="Link" />
 					</label>
 					<input class="squeezeSubmit" type="submit" value="OK" />
-					<div class="squeezeError" style="color: red;"></div>
 				</form>
 				<br />
 				<br />
+				<div class="sortError" style="color: red;"></div>
+				<br />
+				<br />
 				<div class="statistic">
+					
 					<div class="statisticHeader">
 						<div class="linkHeader">
 							<span>Link</span>
 							<button data-order="asc" data-val="target" class="sortBtn asc active">&#8710</button>
-							<!-- <button class="sortBtn desc">&#8711</button> -->
 						</div>
 						<div class="shortHeader">
 							<span>Short</span>
 							<button data-order="asc" data-val="short" class="sortBtn asc active">&#8710</button>
-							<!-- <button class="sortBtn desc">&#8711</button> -->
 						</div>
 						<div class="counterHeader">
 							<span>Counter</span>
 							<button data-order="asc" data-val="counter" class="sortBtn asc active">&#8710</button>
-							<!-- <button class="sortBtn desc">&#8711</button> -->
 						</div>
 					</div>
 					<ul class="statisticListHead">
 						<ul class="statisticList"></ul>
 					</ul>
 				</div>
+				
 				<div class="control">
-					<button class="prev">< Prev</button>
-					<button class="next">Next ></button>
+					<button class="prev">&#8592 Prev</button>
+					<button class="next">Next &#8594</button>
 				</div>
 			</div>
 		</main>

@@ -19,7 +19,7 @@ let order = { order: "asc", val: "target" },
 const LoginForm = document.getElementById("loginForm"),
 	RegisterForm = document.getElementById("registerForm"),
 	SqueezeForm = document.getElementById("squeezeForm"),
-	Error = document.querySelector(".error"),
+	ErrorEl = document.querySelector(".error"),
 	RegError = document.querySelector(".reg-error"),
 	loginSubmit = document.querySelector(".loginSubmit"),
 	registerSubmit = document.querySelector(".registerSubmit"),
@@ -30,7 +30,8 @@ const LoginForm = document.getElementById("loginForm"),
 const loginPage = document.querySelector(".loginPage"),
 	registerPage = document.querySelector(".registerPage"),
 	header = document.querySelector(".header"),
-	statisticsPage = document.querySelector(".statisticsPage");
+	statisticsPage = document.querySelector(".statisticsPage"),
+	sortError = document.querySelector(".sortError");
 
 //
 let statisticsItem, linkEl, shortEl, counterEl, target, copy, targetBlock;
@@ -61,14 +62,6 @@ logoutButton.addEventListener("click", (e) => {
 	statisticsPage.classList.remove("active");
 });
 
-prevControlBtn.addEventListener("click", () => {
-	if (offset === 0) {
-		return;
-	}
-	offset -= limit;
-	getStatistics(order, offset, limit);
-});
-
 sortButtons.forEach((button) => {
 	button.addEventListener("click", function (e) {
 		order.val = button.dataset.val;
@@ -86,50 +79,41 @@ sortButtons.forEach((button) => {
 				button.dataset.order = "asc";
 				button.innerHTML = ascIcon;
 			}
+		});
+		sortButtons.forEach((button) => {
 			button.setAttribute("disabled", true);
 		});
+		prevControlBtn.setAttribute("disabled", true);
+		nextControlBtn.setAttribute("disabled", true);
 
-		const formData = {
-			offset: offset,
-			limit: limit,
-		};
-		const orderUrl = `order=${order.order + "_" + order.val}`;
-
-		const Url = orderUrl + "&" + setUrl(formData);
-		const userData = JSON.parse(localStorage.getItem("user"));
-		const headers = {
-			"Content-Type": "application/json",
-			Authorization: userData.token_type + " " + userData.access_token,
-		};
-
-		fetchApi(`statistics?${Url}`, null, "GET", headers)
-			.then((res) => {
-				if (res.status < 400) {
-					return res.json();
-				} else {
-					let error = new Error(res.statusText);
-					console.log(res.statusText);
-					sortButtons.forEach((button) => {
-						button.removeAttribute("disabled");
-					});
-					throw error;
-				}
-			})
-			.then((data) => {
-				if (data.lengt !== 0) {
-					buildStatistics(data);
-					sortButtons.forEach((button) => {
-						button.removeAttribute("disabled");
-					});
-				}
-			})
-			.catch((err) => console.log(err));
+		getStatistics(order, offset, limit);
 	});
+});
+
+prevControlBtn.addEventListener("click", () => {
+	if (offset === 0) {
+		return;
+	}
+	offset -= limit;
+
+	sortButtons.forEach((button) => {
+		button.setAttribute("disabled", true);
+	});
+	prevControlBtn.setAttribute("disabled", true);
+	nextControlBtn.setAttribute("disabled", true);
+
+	getStatistics(order, offset, limit);
 });
 
 nextControlBtn.addEventListener("click", () => {
 	offset += limit;
-	console.log(offset);
+
+	sortButtons.forEach((button) => {
+		button.setAttribute("disabled", true);
+	});
+	prevControlBtn.setAttribute("disabled", true);
+	nextControlBtn.setAttribute("disabled", true);
+
 	getStatistics(order, offset, limit);
 });
 
@@ -137,7 +121,7 @@ function setUrl(data) {
 	return new URLSearchParams([...Object.entries(data)]).toString();
 }
 
-function getStatistics(order, offset, limit) {
+async function getStatistics(order, offset, limit) {
 	const formData = {
 		offset: offset,
 		limit: limit,
@@ -151,16 +135,49 @@ function getStatistics(order, offset, limit) {
 		Authorization: userData.token_type + " " + userData.access_token,
 	};
 
-	fetchApi(`statistics?${Url}`, null, "GET", headers)
-		.then((res) => {
-			return res.json();
-		})
-		.then((data) => {
-			if (data.lengt !== 0) {
-				buildStatistics(data);
-			}
-		})
-		.catch((err) => console.log(err));
+	try {
+		let response = await fetchApi(
+			`statistics?${Url}`,
+			null,
+			"GET",
+			headers
+		);
+
+		let data = await response.json();
+		if (data.detail) {
+			throw new Error(data.detail);
+		} else {
+			buildStatistics(data);
+		}
+		// .then((res) => {
+		// 	// if (res.status < 400) {
+		// 	return res.json();
+		// 	// }
+		// 	// else {
+		// 	// 	// let error = new Error(res.statusText);
+		// 	// 	throw Error((message = res.statusText));
+		// 	// }
+		// })
+		// .then((data) => {
+		// 	if (data.detail) {
+		// 		let error = new Error(data.detail);
+		// 		throw error;
+		// 	} else {
+		// 		buildStatistics(data);
+		// 	}
+		// });
+	} catch (error) {
+		sortError.innerHTML = error.message;
+		setTimeout(() => {
+			sortError.innerHTML = "";
+		}, 2500);
+	} finally {
+		sortButtons.forEach((button) => {
+			button.removeAttribute("disabled");
+		});
+		prevControlBtn.removeAttribute("disabled");
+		nextControlBtn.removeAttribute("disabled");
+	}
 }
 
 function buildStatistics(data) {
@@ -177,6 +194,7 @@ function buildStatistics(data) {
 		counterEl = document.createElement("div");
 		target = document.createElement("a");
 		copy = document.createElement("button");
+		copy.style.position = "relative";
 
 		linkEl.className = "linkEl";
 		shortEl.className = "shortEl";
@@ -197,8 +215,18 @@ function buildStatistics(data) {
 		statisticsItem.appendChild(counterEl);
 		statisticsList.appendChild(statisticsItem);
 
-		copy.addEventListener("click", () => {
+		copy.addEventListener("click", function (e) {
+			const span = document.createElement("span");
+			span.className = "copyHint";
+			span.style.top = e.offsetY + "px";
+			span.style.left = e.offsetX + "px";
+			span.innerHTML = `URL ${url} copied`;
+			this.appendChild(span);
+			console.log(copy);
 			navigator.clipboard.writeText(url);
+			setTimeout(() => {
+				this.removeChild(span);
+			}, 1500);
 		});
 	});
 
@@ -226,7 +254,7 @@ registerButton.forEach((btn) => {
 
 // FORMS SUBMIT
 
-LoginForm?.addEventListener("submit", (e) => {
+LoginForm?.addEventListener("submit", async (e) => {
 	e.preventDefault();
 
 	const username = LoginForm.querySelector('[name="username"]'),
@@ -239,38 +267,33 @@ LoginForm?.addEventListener("submit", (e) => {
 
 	const dataString = setUrl(formData);
 	loginSubmit.setAttribute("disabled", true);
-
-	fetchApi("login", dataString, "POST", {
-		"Content-Type": "application/x-www-form-urlencoded",
-	})
-		.then((res) => {
-			console.log(res);
-
-			return res.json();
-		})
-		.then((data) => {
-			if (data.access_token) {
-				localStorage.setItem("user", JSON.stringify(data));
-				registerPage.classList.remove("active");
-				loginPage.classList.remove("active");
-				statisticsPage.classList.toggle("active");
-				header.classList.toggle("active");
-				Error.innerHTML = "";
-			}
-			Error.innerHTML = data.detail;
-		})
-		.then(() => {
-			getStatistics(order, offset, limit);
-		})
-		.catch((err) => {
-			Error.innerHTML = "Server is not available";
-		})
-		.finally(() => {
-			loginSubmit.removeAttribute("disabled");
+	try {
+		let response = await fetchApi("login", dataString, "POST", {
+			"Content-Type": "application/x-www-form-urlencoded",
 		});
+
+		let data = await response.json();
+		if (data.access_token) {
+			localStorage.setItem("user", JSON.stringify(data));
+			registerPage.classList.remove("active");
+			loginPage.classList.remove("active");
+			statisticsPage.classList.toggle("active");
+			header.classList.toggle("active");
+			getStatistics(order, offset, limit);
+		} else {
+			throw new Error(data.detail);
+		}
+	} catch (error) {
+		ErrorEl.innerHTML = error.message;
+		setTimeout(() => {
+			ErrorEl.innerHTML = "";
+		}, 2500);
+	} finally {
+		loginSubmit.removeAttribute("disabled");
+	}
 });
 
-RegisterForm?.addEventListener("submit", (e) => {
+RegisterForm?.addEventListener("submit", async (e) => {
 	e.preventDefault();
 
 	const username = RegisterForm.querySelector('[name="username"]'),
@@ -285,47 +308,44 @@ RegisterForm?.addEventListener("submit", (e) => {
 
 	const dataString = setUrl(formData);
 
-	fetchApi(`register?${dataString}`, JSON.stringify(formData), "POST", {
-		"Content-Type": "application/json",
-	})
-		.then((res) => {
-			return res.json();
-		})
-		.then((data) => {
-			if (data.username) {
-				fetchApi("login", dataString, "POST", {
-					"Content-Type": "application/x-www-form-urlencoded",
-				})
-					.then((res) => {
-						return res.json();
-					})
-					.then((data) => {
-						if (data.access_token) {
-							localStorage.setItem("user", JSON.stringify(data));
-							registerPage.classList.remove("active");
-							statisticsPage.classList.toggle("active");
-							header.classList.toggle("active");
-							Error.innerHTML = "data.detail";
-						}
-						Error.innerHTML = data.detail;
-					})
-					.then(() => {
-						getStatistics(order, offset, limit);
-					})
-					.catch((err) => console.log(err));
-				RegError.innerHTML = "";
+	try {
+		let resp = await fetchApi(
+			`register?${dataString}`,
+			JSON.stringify(formData),
+			"POST",
+			{
+				"Content-Type": "application/json",
 			}
-			RegError.innerHTML = data.detail;
-		})
-		.catch((err) => {
-			Error.innerHTML = "Server is not available";
-		})
-		.finally(() => {
-			registerSubmit.removeAttribute("disabled");
-		});
+		);
+		let regData = await resp.json();
+		if (regData.username) {
+			let response = await fetchApi("login", dataString, "POST", {
+				"Content-Type": "application/x-www-form-urlencoded",
+			});
+			let loginData = await response.json();
+			if (loginData.access_token) {
+				localStorage.setItem("user", JSON.stringify(data));
+				registerPage.classList.remove("active");
+				statisticsPage.classList.toggle("active");
+				header.classList.toggle("active");
+				getStatistics(order, offset, limit);
+			} else {
+				throw new Error(loginData.detail);
+			}
+		} else {
+			throw new Error(regData.detail);
+		}
+	} catch (error) {
+		RegError.innerHTML = error.message;
+		setTimeout(() => {
+			RegError.innerHTML = "";
+		}, 2500);
+	} finally {
+		registerSubmit.removeAttribute("disabled");
+	}
 });
 
-SqueezeForm?.addEventListener("submit", (e) => {
+SqueezeForm?.addEventListener("submit", async (e) => {
 	e.preventDefault();
 
 	const link = SqueezeForm.querySelector('[name="link"]');
@@ -342,22 +362,48 @@ SqueezeForm?.addEventListener("submit", (e) => {
 		Authorization: userData.token_type + " " + userData.access_token,
 	};
 	squeezeSubmit.setAttribute("disabled", true);
-	squeezeError.innerHTML = "";
 
-	fetchApi(`squeeze?${Url}`, null, "POST", headers)
-		.then((res) => {
-			return res.json();
-		})
-		.then((data) => {
-			if (data.short) {
-				getStatistics(order, offset, limit);
-				link.value = "";
-			} else {
-				squeezeError.innerHTML = data.detail[0].msg;
-			}
-		})
-		.catch((err) => (squeezeError.innerHTML = err))
-		.finally(() => {
-			squeezeSubmit.removeAttribute("disabled");
-		});
+	try {
+		let response = await fetchApi(`squeeze?${Url}`, null, "POST", headers);
+		let data = await response.json();
+
+		if (data.short) {
+			getStatistics(order, offset, limit);
+			link.value = "";
+		} else {
+			throw new Error(data.detail[0].msg);
+		}
+	} catch (error) {
+		squeezeError.innerHTML = error.message;
+		setTimeout(() => {
+			squeezeError.innerHTML = "";
+		}, 2500);
+	} finally {
+		squeezeSubmit.removeAttribute("disabled");
+	}
+
+	// fetchApi(`squeeze?${Url}`, null, "POST", headers)
+	// .then((res) => {
+	// 	return res.json();
+	// })
+	// .then((data) => {
+	// if (data.short) {
+	// 	getStatistics(order, offset, limit);
+	// 	link.value = "";
+	// } else {
+	// 	squeezeError.innerHTML = data.detail[0].msg;
+	// 	setTimeout(() => {
+	// 		squeezeError.innerHTML = "";
+	// 	}, 2500);
+	// }
+	// })
+	// .catch((err) => {
+	// 	squeezeError.innerHTML = err.message;
+	// 	setTimeout(() => {
+	// 		squeezeError.innerHTML = "";
+	// 	}, 2500);
+	// })
+	// .finally(() => {
+	// 	squeezeSubmit.removeAttribute("disabled");
+	// });
 });
