@@ -44,31 +44,37 @@ input {
 label {
     display: flex;
     flex-direction: column;
-    row-gap: 30px;
+    row-gap: 10px;
 }
 
 .loginPage {
     display: none;
+    flex-direction: column;
+    row-gap: 20px;
 
     &.active {
-        display: block;
+        display: flex;
     }
 }
 
 .registerPage {
     display: none;
+    flex-direction: column;
+    row-gap: 20px;
 
     &.active {
-        display: block;
+        display: flex;
     }
 }
 
 .statisticsPage {
     display: none;
     width: 100%;
+    flex-direction: column;
+    row-gap: 20px;
 
     &.active {
-        display: block;
+        display: flex;
     }
 }
 
@@ -96,6 +102,7 @@ li {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    // padding: 5px 10px;
 
     &:not(:last-child) {
         border-bottom: 1px solid #000;
@@ -110,6 +117,22 @@ li {
     &:not(:last-child) {
         border-bottom: 1px solid #000;
     }
+}
+
+#squeezeForm {
+    // display: flex;
+    // column-gap: 10px;
+
+    &>label {
+        row-gap: 0;
+        flex-direction: row;
+        align-items: center;
+        column-gap: 20px;
+    }
+}
+
+.squeezeSubmit {
+    max-width: 100px;
 }
 
 li>div {
@@ -130,10 +153,10 @@ li>a {
 
 
 .statisticHeader>div {
-    width: 30%;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    padding: 10px 20px;
 
     &:not(:first-child) {
         border-left: 1px solid #000;
@@ -161,4 +184,35 @@ li>a {
     padding: 5px;
     z-index: 2;
     white-space: nowrap;
+}
+
+.linkHeader {
+    width: 55%;
+
+}
+
+.shortHeader {
+    width: 35%;
+}
+
+.counterHeader {
+    width: 10%;
+}
+
+.linkEl {
+    width: 55%;
+    padding: 10px 20px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.shortEl {
+    width: 35%;
+    padding: 10px 20px;
+}
+
+.counterEl {
+    width: 10%;
+    padding: 10px 20px;
 }

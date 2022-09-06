@@ -285,6 +285,8 @@ LoginForm?.addEventListener("submit", async (e) => {
 			statisticsPage.classList.toggle("active");
 			header.classList.toggle("active");
 			getStatistics(order, offset, limit);
+			username.value = "";
+			password.value = "";
 		} else {
 			throw new Error(data.detail);
 		}
@@ -334,6 +336,8 @@ RegisterForm?.addEventListener("submit", async (e) => {
 				statisticsPage.classList.toggle("active");
 				header.classList.toggle("active");
 				getStatistics(order, offset, limit);
+				username.value = "";
+				password.value = "";
 			} else {
 				throw new Error(loginData.detail);
 			}
