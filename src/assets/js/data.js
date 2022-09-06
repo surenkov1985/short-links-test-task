@@ -217,13 +217,15 @@ function buildStatistics(data) {
 
 		copy.addEventListener("click", function (e) {
 			const span = document.createElement("span");
+
 			span.className = "copyHint";
 			span.style.top = e.offsetY + "px";
 			span.style.left = e.offsetX + "px";
 			span.innerHTML = `URL ${url} copied`;
 			this.appendChild(span);
-			console.log(copy);
+
 			navigator.clipboard.writeText(url);
+
 			setTimeout(() => {
 				this.removeChild(span);
 			}, 1500);
