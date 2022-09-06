@@ -13,7 +13,9 @@ let order = { order: "asc", val: "target" },
 	limit = 5,
 	counter = 0,
 	ascIcon = "&#8710",
-	descIcon = "&#8711";
+	descIcon = "&#8711",
+	statisticData = [],
+	timer = 0;
 
 // FORMS
 const LoginForm = document.getElementById("loginForm"),
@@ -24,7 +26,9 @@ const LoginForm = document.getElementById("loginForm"),
 	loginSubmit = document.querySelector(".loginSubmit"),
 	registerSubmit = document.querySelector(".registerSubmit"),
 	squeezeSubmit = document.querySelector(".squeezeSubmit"),
-	squeezeError = document.querySelector(".squeezeError");
+	squeezeError = document.querySelector(".squeezeError"),
+	seachForm = document.querySelector(".searchForm"),
+	searchInput = document.querySelector(".searchInput");
 
 // PAGES
 const loginPage = document.querySelector(".loginPage"),
@@ -156,6 +160,7 @@ async function getStatistics(order, offset, limit) {
 			throw new Error(data.detail);
 		} else {
 			buildStatistics(data);
+			statisticData = data;
 			sortButtons.forEach((button) => {
 				button.removeAttribute("disabled");
 			});
@@ -258,6 +263,28 @@ registerButton.forEach((btn) => {
 });
 
 // FORMS SUBMIT
+
+function filterStatistics() {
+	const reg = new RegExp(searchInput.value, "i");
+	let filterData = statisticData.filter((item) => {
+		return (
+			reg.test(item.target) ||
+			reg.test(item.short) ||
+			reg.test(item.counter)
+		);
+	});
+
+	buildStatistics(filterData);
+}
+
+searchInput.addEventListener("input", function (e) {
+	filterStatistics();
+});
+seachForm.addEventListener("submit", (e) => {
+	e.preventDefault();
+
+	filterStatistics();
+});
 
 LoginForm?.addEventListener("submit", async (e) => {
 	e.preventDefault();
