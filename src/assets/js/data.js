@@ -60,6 +60,8 @@ logoutButton.addEventListener("click", (e) => {
 	loginPage.classList.toggle("active");
 	header.classList.remove("active");
 	statisticsPage.classList.remove("active");
+	order = { order: "asc", val: "target" };
+	offset = 0;
 });
 
 sortButtons.forEach((button) => {
@@ -161,11 +163,11 @@ async function getStatistics(order, offset, limit) {
 				nextControlBtn.setAttribute("disabled", true);
 			} else {
 				nextControlBtn.removeAttribute("disabled");
-				if (offset === 0) {
-					prevControlBtn.setAttribute("disabled", true);
-				} else {
-					prevControlBtn.removeAttribute("disabled");
-				}
+			}
+			if (offset === 0) {
+				prevControlBtn.setAttribute("disabled", true);
+			} else {
+				prevControlBtn.removeAttribute("disabled");
 			}
 		}
 	} catch (error) {
