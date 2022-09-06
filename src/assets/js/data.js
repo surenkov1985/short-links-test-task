@@ -92,6 +92,7 @@ sortButtons.forEach((button) => {
 
 prevControlBtn.addEventListener("click", () => {
 	if (offset === 0) {
+		prevControlBtn.setAttribute("disabled", true);
 		return;
 	}
 	offset -= limit;
@@ -126,6 +127,11 @@ async function getStatistics(order, offset, limit) {
 		offset: offset,
 		limit: limit,
 	};
+
+	if (offset === 0) {
+		prevControlBtn.setAttribute("disabled", true);
+	}
+	nextControlBtn.setAttribute("disabled", true);
 	const orderUrl = `order=${order.order + "_" + order.val}`;
 
 	const Url = orderUrl + "&" + setUrl(formData);
@@ -148,35 +154,30 @@ async function getStatistics(order, offset, limit) {
 			throw new Error(data.detail);
 		} else {
 			buildStatistics(data);
+			sortButtons.forEach((button) => {
+				button.removeAttribute("disabled");
+			});
+			if (data.length < 5) {
+				nextControlBtn.setAttribute("disabled", true);
+			} else {
+				nextControlBtn.removeAttribute("disabled");
+				if (offset === 0) {
+					prevControlBtn.setAttribute("disabled", true);
+				} else {
+					prevControlBtn.removeAttribute("disabled");
+				}
+			}
 		}
-		// .then((res) => {
-		// 	// if (res.status < 400) {
-		// 	return res.json();
-		// 	// }
-		// 	// else {
-		// 	// 	// let error = new Error(res.statusText);
-		// 	// 	throw Error((message = res.statusText));
-		// 	// }
-		// })
-		// .then((data) => {
-		// 	if (data.detail) {
-		// 		let error = new Error(data.detail);
-		// 		throw error;
-		// 	} else {
-		// 		buildStatistics(data);
-		// 	}
-		// });
 	} catch (error) {
 		sortError.innerHTML = error.message;
-		setTimeout(() => {
-			sortError.innerHTML = "";
-		}, 2500);
-	} finally {
 		sortButtons.forEach((button) => {
 			button.removeAttribute("disabled");
 		});
 		prevControlBtn.removeAttribute("disabled");
 		nextControlBtn.removeAttribute("disabled");
+		setTimeout(() => {
+			sortError.innerHTML = "";
+		}, 2500);
 	}
 }
 
@@ -326,7 +327,7 @@ RegisterForm?.addEventListener("submit", async (e) => {
 			});
 			let loginData = await response.json();
 			if (loginData.access_token) {
-				localStorage.setItem("user", JSON.stringify(data));
+				localStorage.setItem("user", JSON.stringify(loginData));
 				registerPage.classList.remove("active");
 				statisticsPage.classList.toggle("active");
 				header.classList.toggle("active");
@@ -383,29 +384,4 @@ SqueezeForm?.addEventListener("submit", async (e) => {
 	} finally {
 		squeezeSubmit.removeAttribute("disabled");
 	}
-
-	// fetchApi(`squeeze?${Url}`, null, "POST", headers)
-	// .then((res) => {
-	// 	return res.json();
-	// })
-	// .then((data) => {
-	// if (data.short) {
-	// 	getStatistics(order, offset, limit);
-	// 	link.value = "";
-	// } else {
-	// 	squeezeError.innerHTML = data.detail[0].msg;
-	// 	setTimeout(() => {
-	// 		squeezeError.innerHTML = "";
-	// 	}, 2500);
-	// }
-	// })
-	// .catch((err) => {
-	// 	squeezeError.innerHTML = err.message;
-	// 	setTimeout(() => {
-	// 		squeezeError.innerHTML = "";
-	// 	}, 2500);
-	// })
-	// .finally(() => {
-	// 	squeezeSubmit.removeAttribute("disabled");
-	// });
 });
