@@ -31,30 +31,56 @@ form {
 
 }
 
-.searchLabel {
+.statisticSettings {
+    display: flex;
+    justify-content: space-between;
+}
+
+.filterLabel {
+    width: 50%;
     display: flex;
     flex-direction: row;
     border: 1px solid #000;
     position: relative;
 }
 
-.searchList {
+.limitLabel {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    column-gap: 5px;
+}
+
+.limitStatistic {
+    width: 50px;
+    height: 100%;
+    text-align: center;
+
+    &>option {
+        width: 50px;
+        height: 50px;
+        text-align: center;
+    }
+}
+
+.filterList {
     position: absolute;
     top: 105%;
     background: #FAFAFA;
     border: 1px solid #4b4949;
 }
 
-.searchSubmit {
+.filterSubmit {
     max-width: 50px;
     border: none;
     background: none;
+    cursor: pointer;
 }
 
-.searchInput {
+.filterInput {
     border: none;
     outline: none;
-
+    width: 100%;
 }
 
 h1 {
@@ -114,8 +140,14 @@ label {
     }
 }
 
+// .statisticContainer {
+
+// }
+
 .statistic {
+    max-height: 450px;
     border: 1px solid #000;
+    overflow-y: auto;
 }
 
 ul {
@@ -141,6 +173,10 @@ li {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    position: sticky;
+    top: 0;
+    background: #e6dbdb;
+    z-index: 5;
 
     &:not(:last-child) {
         border-bottom: 1px solid #000;

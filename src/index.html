@@ -9,13 +9,7 @@
 	<body>
 		<header class="header">
 			<a href="" class="logoutBtn">Logout</a>
-			<form class="searchForm">
-					<label class="searchLabel">
-						<input class="searchSubmit" type="submit" value="&#128269">
-						<input class="searchInput" type="text" placeholder="Search">
-						<ul class="searchList"></ul>
-					</label>
-			</form>
+			
 		</header>
 		<main>
 			
@@ -85,28 +79,48 @@
 						<input type="text" name="link" placeholder="Shorten your link" />
 						<input class="squeezeSubmit" type="submit" value="Shorten" />
 					</label>
+					<div class="statisticSettings">
+						<form class="filterForm">
+							<label class="filterLabel">
+								<input class="filterSubmit" type="submit" value="&#128269">
+								<input class="filterInput" type="text" placeholder="Filter by long URL, short URL or clicks...">
+								
+							</label>
+						</form>
+						<label class="limitLabel">
+							<span>item/page</span>
+							<select name="limit" class="limitStatistic">
+								<option value=5>5</option>
+								<option value=10>10</option>
+								<option value=20>20</option>
+							</select>
+						</label>
+						
+					</div>
+					
 					
 				</form>
 				<div class="sortError" style="color: red;"></div>
-				<div class="statistic">
-					
-					<div class="statisticHeader">
-						<div class="linkHeader">
-							<span>Link</span>
-							<button data-order="asc" data-val="target" class="sortBtn asc active">&#8710</button>
+				<div class="statisticContainer">
+					<div class="statistic">
+						<div class="statisticHeader">
+							<div class="linkHeader">
+								<span>Long URL</span>
+								<button data-order="asc" data-val="target" class="sortBtn asc active">&#8710</button>
+							</div>
+							<div class="shortHeader">
+								<span>Short URL</span>
+								<button data-order="asc" data-val="short" class="sortBtn asc active">&#8710</button>
+							</div>
+							<div class="counterHeader">
+								<span>Clicks</span>
+								<button data-order="asc" data-val="counter" class="sortBtn asc active">&#8710</button>
+							</div>
 						</div>
-						<div class="shortHeader">
-							<span>Short</span>
-							<button data-order="asc" data-val="short" class="sortBtn asc active">&#8710</button>
-						</div>
-						<div class="counterHeader">
-							<span>Counter</span>
-							<button data-order="asc" data-val="counter" class="sortBtn asc active">&#8710</button>
-						</div>
+						<ul class="statisticListHead">
+							<ul class="statisticList"></ul>
+						</ul>
 					</div>
-					<ul class="statisticListHead">
-						<ul class="statisticList"></ul>
-					</ul>
 				</div>
 				
 				<div class="control">

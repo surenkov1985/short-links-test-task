@@ -27,8 +27,9 @@ const LoginForm = document.getElementById("loginForm"),
 	registerSubmit = document.querySelector(".registerSubmit"),
 	squeezeSubmit = document.querySelector(".squeezeSubmit"),
 	squeezeError = document.querySelector(".squeezeError"),
-	seachForm = document.querySelector(".searchForm"),
-	searchInput = document.querySelector(".searchInput");
+	filterForm = document.querySelector(".filterForm"),
+	filterInput = document.querySelector(".filterInput"),
+	limitSelect = document.querySelector(".limitStatistic");
 
 // PAGES
 const loginPage = document.querySelector(".loginPage"),
@@ -66,6 +67,7 @@ logoutButton.addEventListener("click", (e) => {
 	statisticsPage.classList.remove("active");
 	order = { order: "asc", val: "target" };
 	offset = 0;
+	limit = 5;
 });
 
 sortButtons.forEach((button) => {
@@ -159,12 +161,14 @@ async function getStatistics(order, offset, limit) {
 		if (data.detail) {
 			throw new Error(data.detail);
 		} else {
-			buildStatistics(data);
-			statisticData = data;
+			statisticData = data.map((item) => {
+				return { ...item, short: BASEURL + "s/" + item.short };
+			});
+			buildStatistics(statisticData);
 			sortButtons.forEach((button) => {
 				button.removeAttribute("disabled");
 			});
-			if (data.length < 5) {
+			if (data.length < limit) {
 				nextControlBtn.setAttribute("disabled", true);
 			} else {
 				nextControlBtn.removeAttribute("disabled");
@@ -195,7 +199,7 @@ function buildStatistics(data) {
 	statisticListHead.innerHTML = "";
 
 	data.map((res) => {
-		const url = BASEURL + "s/" + res.short;
+		const url = res.short;
 		statisticsItem = document.createElement("li");
 		linkEl = document.createElement("div");
 		shortEl = document.createElement("div");
@@ -264,8 +268,15 @@ registerButton.forEach((btn) => {
 
 // FORMS SUBMIT
 
+limitSelect.addEventListener("change", (e) => {
+	console.log(limitSelect.value);
+	limit = limitSelect.value;
+
+	getStatistics(order, offset, limit);
+});
+
 function filterStatistics() {
-	const reg = new RegExp(searchInput.value, "i");
+	const reg = new RegExp(filterInput.value, "i");
 	let filterData = statisticData.filter((item) => {
 		return (
 			reg.test(item.target) ||
@@ -275,12 +286,17 @@ function filterStatistics() {
 	});
 
 	buildStatistics(filterData);
+	if (filterData.length < limit) {
+		nextControlBtn.setAttribute("disabled", true);
+	} else {
+		nextControlBtn.removeAttribute("disabled");
+	}
 }
 
-searchInput.addEventListener("input", function (e) {
+filterInput?.addEventListener("input", function (e) {
 	filterStatistics();
 });
-seachForm.addEventListener("submit", (e) => {
+filterForm?.addEventListener("submit", (e) => {
 	e.preventDefault();
 
 	filterStatistics();
