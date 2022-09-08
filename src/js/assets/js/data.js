@@ -1,5 +1,7 @@
 const BASEURL = "http://79.143.31.216/";
 
+console.log(window.location.href);
+
 const fetchApi = (url = "", body = null, method, headers) => {
 	return fetch(BASEURL + url, {
 		method: method,
@@ -27,7 +29,6 @@ const LoginForm = document.getElementById("loginForm"),
 	registerSubmit = document.querySelector(".registerSubmit"),
 	squeezeSubmit = document.querySelector(".squeezeSubmit"),
 	squeezeError = document.querySelector(".squeezeError"),
-	filterForm = document.querySelector(".filterForm"),
 	filterInput = document.querySelector(".filterInput"),
 	limitSelect = document.querySelector(".limitStatistic");
 
@@ -47,12 +48,13 @@ const loginButtons = document.querySelectorAll(".loginBtn"),
 	logoutButton = document.querySelector(".logoutBtn"),
 	prevControlBtn = document.querySelector(".prev"),
 	nextControlBtn = document.querySelector(".next"),
-	sortButtons = document.querySelectorAll(".sortBtn");
+	sortButtons = document.querySelectorAll(".sortBtn"),
+	reactLink = document.querySelector(".reactLink");
 
 if (localStorage.hasOwnProperty("user")) {
 	statisticsPage.classList.toggle("active");
 	loginPage.classList.remove("active");
-	header.classList.toggle("active");
+	logoutButton.classList.toggle("active");
 	getStatistics(order, offset, limit);
 }
 
@@ -63,11 +65,12 @@ logoutButton.addEventListener("click", (e) => {
 
 	localStorage.removeItem("user");
 	loginPage.classList.toggle("active");
-	header.classList.remove("active");
+	logoutButton.classList.remove("active");
 	statisticsPage.classList.remove("active");
 	order = { order: "asc", val: "target" };
 	offset = 0;
 	limit = 5;
+	limitSelect.value = 5;
 });
 
 sortButtons.forEach((button) => {
@@ -296,11 +299,6 @@ function filterStatistics() {
 filterInput?.addEventListener("input", function (e) {
 	filterStatistics();
 });
-filterForm?.addEventListener("submit", (e) => {
-	e.preventDefault();
-
-	filterStatistics();
-});
 
 LoginForm?.addEventListener("submit", async (e) => {
 	e.preventDefault();
@@ -326,7 +324,7 @@ LoginForm?.addEventListener("submit", async (e) => {
 			registerPage.classList.remove("active");
 			loginPage.classList.remove("active");
 			statisticsPage.classList.toggle("active");
-			header.classList.toggle("active");
+			logoutButton.classList.toggle("active");
 			getStatistics(order, offset, limit);
 			username.value = "";
 			password.value = "";
@@ -377,7 +375,7 @@ RegisterForm?.addEventListener("submit", async (e) => {
 				localStorage.setItem("user", JSON.stringify(loginData));
 				registerPage.classList.remove("active");
 				statisticsPage.classList.toggle("active");
-				header.classList.toggle("active");
+				logoutButton.classList.toggle("active");
 				getStatistics(order, offset, limit);
 				username.value = "";
 				password.value = "";

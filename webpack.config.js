@@ -14,7 +14,7 @@ const mode = process.env.NODE_ENV;
 
 const build = {
 	context: path.resolve(__dirname, "./src"),
-	mode: mode,
+	// mode: mode,
 
 	plugins: [
 		new MiniCssExtractPlugin({
@@ -22,7 +22,13 @@ const build = {
 		}),
 		new HtmlWebpackPlugin({
 			filename: "index.html",
-			template: "index.html",
+			template: "./js/index.html",
+			chunks: ["index"],
+		}),
+		new HtmlWebpackPlugin({
+			filename: "app.html",
+			template: "./react/app.html",
+			chunks: ["app"],
 		}),
 		new CopyPlugin({
 			patterns: [{ from: "static", to: "", noErrorOnMissing: true }],
@@ -36,7 +42,10 @@ const build = {
 		maxEntrypointSize: 512000,
 		maxAssetSize: 512000,
 	},
-	entry: ["@babel/polyfill", "./index.js"],
+	entry: {
+		index: ["@babel/polyfill", "./js/index.js"],
+		app: ["@babel/polyfill", "./react/app.js"],
+	},
 	resolve: {
 		extensions: [".tsx", ".ts", ".js"],
 		alias: {

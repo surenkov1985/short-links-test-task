@@ -9,7 +9,7 @@
 	<body>
 		<header class="header">
 			<a href="" class="logoutBtn">Logout</a>
-			
+			<a href="/app.html" class="reactLink">React</a>
 		</header>
 		<main>
 			
@@ -29,7 +29,7 @@
 					<label>
 						<p>Password</p>
 						<input
-							type="text"
+							type="password"
 							name="password"
 							placeholder="password"
 							required
@@ -57,7 +57,7 @@
 					<label>
 						<p>Password</p>
 						<input
-							type="text"
+							type="password"
 							name="password"
 							placeholder="Password"
 						/>
@@ -79,26 +79,24 @@
 						<input type="text" name="link" placeholder="Shorten your link" />
 						<input class="squeezeSubmit" type="submit" value="Shorten" />
 					</label>
-					<div class="statisticSettings">
-						<form class="filterForm">
-							<label class="filterLabel">
-								<input class="filterInput" type="text" placeholder="Filter by long URL, short URL or clicks...">
-								
-							</label>
-						</form>
-						<label class="limitLabel">
-							<span>Item</span>
-							<select name="limit" class="limitStatistic">
-								<option value=5>5</option>
-								<option value=10>10</option>
-								<option value=20>20</option>
-							</select>
-						</label>
-						
-					</div>
-					
-					
 				</form>
+				<div class="statisticSettings">
+					<form class="filterForm">
+						<label class="filterLabel">
+							<input class="filterInput" type="text" placeholder="Filter by long URL, short URL or clicks...">
+							
+						</label>
+					</form>
+					<label class="limitLabel">
+						<span>Item</span>
+						<select name="limit" class="limitStatistic">
+							<option value=5>5</option>
+							<option value=10>10</option>
+							<option value=20>20</option>
+						</select>
+					</label>
+					
+				</div>
 				<div class="sortError" style="color: red;"></div>
 				<div class="statisticContainer">
 					<div class="statistic">

@@ -32,12 +32,18 @@ form {
 }
 
 .statisticSettings {
+    width: 100%;
     display: flex;
+    flex-direction: row;
     justify-content: space-between;
 }
 
-.filterLabel {
+.filterForm {
     width: 50%;
+}
+
+.filterLabel {
+    width: 100%;
     display: flex;
     flex-direction: row;
     border: 1px solid #000;
@@ -131,7 +137,7 @@ label {
 }
 
 .header {
-    display: none;
+    display: flex;
     flex-direction: row;
     justify-content: space-between;
 
@@ -140,9 +146,13 @@ label {
     }
 }
 
-// .statisticContainer {
+.logoutBtn {
+    display: none;
 
-// }
+    &.active {
+        display: block;
+    }
+}
 
 .statistic {
     max-height: 450px;
@@ -162,7 +172,6 @@ li {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    // padding: 5px 10px;
 
     &:not(:last-child) {
         border-bottom: 1px solid #000;
