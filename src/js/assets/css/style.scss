@@ -1,8 +1,16 @@
 * {
-    box-sizing: border-box;
-    list-style: none;
     margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    outline: none;
+    font-family: "Roboto";
+    font-size: 16px;
+    font-weight: 400;
+    text-decoration: none;
+    color: #000000;
+    list-style: none;
 }
+
 
 body {
     width: 100%;
@@ -10,11 +18,40 @@ body {
 
 }
 
-header {
+.header {
+    display: flex;
+    justify-content: space-between;
     width: 100%;
-
     column-gap: 10px;
-    padding: 30px;
+    padding: 20px 40px;
+    align-items: center;
+    background: #71aaff;
+    box-shadow: 0px 5px 10px 2px rgba(121, 173, 214, 0.22);
+}
+
+.logoutBtn {
+    display: none;
+    font-size: 16px;
+    font-weight: 500;
+
+    &:hover {
+        color: #FFFFFF;
+        text-decoration: underline;
+    }
+
+    &.active {
+        display: block;
+    }
+}
+
+.reactLink {
+    font-size: 16px;
+    font-weight: 500;
+
+    &:hover {
+        color: #FFFFFF;
+        text-decoration: underline;
+    }
 }
 
 main {
@@ -136,23 +173,9 @@ label {
     }
 }
 
-.header {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
 
-    &.active {
-        display: flex;
-    }
-}
 
-.logoutBtn {
-    display: none;
 
-    &.active {
-        display: block;
-    }
-}
 
 .statistic {
     max-height: 450px;

@@ -10,8 +10,10 @@ export const Register = () => {
 	const dispatch = useDispatch();
 
 	const [error, setError] = useState("");
-	const [onRegister, { data: registerData, error: registerError }] =
-		useRegisterMutation();
+	const [
+		onRegister,
+		{ data: registerData, error: registerError, isLoading },
+	] = useRegisterMutation();
 	const [onlogin, { data: loginData, error: loginError }] =
 		useLoginMutation();
 	const { register, handleSubmit } = useForm({ mode: "onCange" });
@@ -71,7 +73,7 @@ export const Register = () => {
 						{...register("password")}
 					/>
 				</label>
-				<input type="submit" value="Logout" />
+				<input type="submit" value="Logout" disabled={isLoading} />
 			</form>
 			<p>
 				Have an account?{" "}
@@ -79,6 +81,7 @@ export const Register = () => {
 					onClick={() => {
 						navigate("../login");
 					}}
+					disabled={isLoading}
 				>
 					Sign In
 				</button>

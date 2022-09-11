@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { Link, Outlet, useNavigate } from "react-router-dom";
-import { authToggle } from "../store/dataReduser";
+import { authToggle, setDefaultState } from "../../store/dataReduser";
+import { Header, HeaderLink, HeaderRouterLink, Main } from "./style";
 
 export const Layout = () => {
 	const navigate = useNavigate();
@@ -18,20 +19,23 @@ export const Layout = () => {
 	function logoutHandler(e) {
 		e.preventDefault();
 		dispatch(authToggle(false));
+		dispatch(setDefaultState());
 		localStorage.removeItem("user");
 		navigate("login");
 	}
 	return (
-		<div>
-			<header>
-				<a href="../">JavaScript</a>
-				<Link to="login" onClick={logoutHandler}>
-					Logout
-				</Link>
-			</header>
-			<main>
+		<>
+			<Header>
+				{isAuth && (
+					<HeaderRouterLink to="login" onClick={logoutHandler}>
+						Logout
+					</HeaderRouterLink>
+				)}
+				<HeaderLink href="../">JavaScript</HeaderLink>
+			</Header>
+			<Main>
 				<Outlet />
-			</main>
-		</div>
+			</Main>
+		</>
 	);
 };

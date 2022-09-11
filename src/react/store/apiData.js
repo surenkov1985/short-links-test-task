@@ -24,7 +24,28 @@ export const apiData = createApi({
 				},
 			}),
 		}),
+		statistics: build.mutation({
+			query: (data) => ({
+				url: `/statistics?${data.urlString}`,
+				method: "GET",
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: data.authData,
+				},
+			}),
+		}),
+		shorten: build.mutation({
+			query: (data) => ({
+				url: `/squeeze?${data.urlString}`,
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: data.authData
+				}
+			})
+		})
 	}),
 });
 
-export const { useLoginMutation, useRegisterMutation } = apiData;
+export const { useLoginMutation, useRegisterMutation, useStatisticsMutation, useShortenMutation } =
+	apiData;
