@@ -31,7 +31,7 @@ export const Layout = () => {
 						Logout
 					</HeaderRouterLink>
 				)}
-				<HeaderLink href="../">JavaScript</HeaderLink>
+				<HeaderLink href="./index.html">JavaScript</HeaderLink>
 			</Header>
 			<Main>
 				<Outlet />
