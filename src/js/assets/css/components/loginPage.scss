@@ -1,0 +1,99 @@
+.login {
+    display: none;
+    flex-direction: column;
+    row-gap: 20px;
+
+    &.active {
+        display: flex;
+    }
+
+    &__title {
+        font-size: 30px;
+        font-weight: 700;
+    }
+
+    &__formContainer {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        row-gap: 30px;
+    }
+
+    &__form {
+        width: 500px;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        margin-top: 70px;
+        row-gap: 30px;
+    }
+
+    &__error {
+        width: 500px;
+        color: #ff0000;
+        border: 1px solid #ff0000;
+        padding: 10px 20px;
+        border-radius: 5px;
+        background: rgba(250, 0, 0, 0.05);
+        position: absolute;
+        top: -60px;
+        display: none;
+
+        &.active {
+            display: block;
+        }
+    }
+
+    &__loginLabel {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        row-gap: 10px;
+    }
+
+    &__labelTitle {
+        font-size: 18px;
+        font-weight: 500;
+    }
+
+    &__input {
+        width: 100%;
+        padding: 10px 20px;
+        border-radius: 5px;
+        border: 1px solid #000000;
+    }
+
+    &__submit {
+        width: 100%;
+        border-radius: 5px;
+        padding: 10px 20px;
+        background: #ffffff;
+        border: 1px solid #000000;
+        font-weight: 500;
+        cursor: pointer;
+
+        &:hover {
+            background: #71aaff;
+            color: #ffffff;
+            border-color: #71aaff;
+        }
+    }
+
+    &__navigate {
+        font-weight: 500;
+    }
+
+    &__registerBtn {
+        border: none;
+        background: none;
+        cursor: pointer;
+        color: blue;
+        margin-left: 10px;
+
+        &:hover {
+            color: blue;
+            text-decoration: underline;
+        }
+    }
+}

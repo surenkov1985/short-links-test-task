@@ -1,7 +1,5 @@
 const BASEURL = "http://79.143.31.216/";
 
-console.log(window.location.href);
-
 const fetchApi = (url = "", body = null, method, headers) => {
 	return fetch(BASEURL + url, {
 		method: method,
@@ -14,42 +12,49 @@ let order = { order: "asc", val: "target" },
 	offset = 0,
 	limit = 5,
 	counter = 0,
-	ascIcon = "&#8710",
-	descIcon = "&#8711",
+	ascIcon = "&#9660",
+	descIcon = "&#9650",
 	statisticData = [],
 	timer = 0;
 
 // FORMS
-const LoginForm = document.getElementById("loginForm"),
-	RegisterForm = document.getElementById("registerForm"),
+const LoginForm = document.querySelector(".login__form"),
+	RegisterForm = document.querySelector(".register__form"),
 	SqueezeForm = document.getElementById("squeezeForm"),
-	ErrorEl = document.querySelector(".error"),
-	RegError = document.querySelector(".reg-error"),
-	loginSubmit = document.querySelector(".loginSubmit"),
-	registerSubmit = document.querySelector(".registerSubmit"),
-	squeezeSubmit = document.querySelector(".squeezeSubmit"),
-	squeezeError = document.querySelector(".squeezeError"),
-	filterInput = document.querySelector(".filterInput"),
-	limitSelect = document.querySelector(".limitStatistic");
+	ErrorEl = document.querySelector(".login__error"),
+	RegError = document.querySelector(".register__error"),
+	loginSubmit = document.querySelector(".login__submit"),
+	registerSubmit = document.querySelector(".register__submit"),
+	squeezeSubmit = document.querySelector(".squeeze__submit"),
+	squeezeError = document.querySelector(".squeeze__error"),
+	filterInput = document.querySelector(".statistics__filter-input"),
+	limitSelect = document.querySelector(".statistics__limit-select");
 
 // PAGES
 const loginPage = document.querySelector(".loginPage"),
 	registerPage = document.querySelector(".registerPage"),
 	header = document.querySelector(".header"),
 	statisticsPage = document.querySelector(".statisticsPage"),
-	sortError = document.querySelector(".sortError");
+	sortError = document.querySelector(".statistics__sort-error");
 
 //
-let statisticsItem, linkEl, shortEl, counterEl, target, copy, targetBlock;
+let statisticsItem,
+	linkEl,
+	shortEl,
+	counterEl,
+	target,
+	copy,
+	targetBlock,
+	short;
 
 // BUTTONS
-const loginButtons = document.querySelectorAll(".loginBtn"),
-	registerButton = document.querySelectorAll(".registerBtn"),
-	logoutButton = document.querySelector(".logoutBtn"),
+const loginButtons = document.querySelectorAll(".register__loginBtn"),
+	registerButton = document.querySelectorAll(".login__registerBtn"),
+	logoutButton = document.querySelector(".header__logoutBtn"),
 	prevControlBtn = document.querySelector(".prev"),
 	nextControlBtn = document.querySelector(".next"),
-	sortButtons = document.querySelectorAll(".sortBtn"),
-	reactLink = document.querySelector(".reactLink");
+	sortButtons = document.querySelectorAll(".statistic__sortBtn"),
+	reactLink = document.querySelector(".header__reactLink");
 
 if (localStorage.hasOwnProperty("user")) {
 	statisticsPage.classList.toggle("active");
@@ -184,6 +189,7 @@ async function getStatistics(order, offset, limit) {
 		}
 	} catch (error) {
 		sortError.innerHTML = error.message;
+		sortError.classList.toggle("active");
 		sortButtons.forEach((button) => {
 			button.removeAttribute("disabled");
 		});
@@ -191,40 +197,48 @@ async function getStatistics(order, offset, limit) {
 		nextControlBtn.removeAttribute("disabled");
 		setTimeout(() => {
 			sortError.innerHTML = "";
+			sortError.classList.remove("active");
 		}, 2500);
 	}
 }
 
 function buildStatistics(data) {
-	const statisticListHead = document.querySelector(".statisticListHead");
+	const statisticListHead = document.querySelector(".statistic__list-head");
 	const statisticsList = document.createElement("ul");
-	statisticsList.className = "statisticList";
+	statisticsList.className = "statistic__list";
 	statisticListHead.innerHTML = "";
 
 	data.map((res) => {
+		const targetUrl = res.target;
 		const url = res.short;
 		statisticsItem = document.createElement("li");
 		linkEl = document.createElement("div");
 		shortEl = document.createElement("div");
 		counterEl = document.createElement("div");
 		target = document.createElement("a");
+		short = document.createElement("a");
 		copy = document.createElement("button");
 		copy.style.position = "relative";
 
-		linkEl.className = "linkEl";
-		shortEl.className = "shortEl";
-		counterEl.className = "counterEl";
-		statisticsItem.className = "statisticItem";
+		linkEl.className = "statistic__linkEl";
+		shortEl.className = "statistic__shortEl";
+		counterEl.className = "statistic__counterEl";
+		statisticsItem.className = "statistic__item";
 		copy.className = "linkCopyBtn";
+		target.className = "target-link"
+		short.className = "short-link"
 
-		target.href = url;
+		target.href = targetUrl;
 		target.target = "_blank";
-		target.innerHTML = url;
+		target.innerHTML = targetUrl;
+		short.href = url;
+		short.target = "_blank";
+		short.innerHTML = url;
 		copy.innerHTML = "Copy";
-		linkEl.innerHTML = res.target;
 		counterEl.innerHTML = res.counter;
-		shortEl.appendChild(target);
+		shortEl.appendChild(short);
 		shortEl.appendChild(copy);
+		linkEl.appendChild(target);
 		statisticsItem.appendChild(linkEl);
 		statisticsItem.appendChild(shortEl);
 		statisticsItem.appendChild(counterEl);
@@ -303,6 +317,8 @@ filterInput?.addEventListener("input", function (e) {
 LoginForm?.addEventListener("submit", async (e) => {
 	e.preventDefault();
 
+	console.log(111);
+
 	const username = LoginForm.querySelector('[name="username"]'),
 		password = LoginForm.querySelector('[name="password"]');
 
@@ -333,8 +349,10 @@ LoginForm?.addEventListener("submit", async (e) => {
 		}
 	} catch (error) {
 		ErrorEl.innerHTML = error.message;
+		ErrorEl.classList.toggle("active");
 		setTimeout(() => {
 			ErrorEl.innerHTML = "";
+			ErrorEl.classList.remove("active");
 		}, 2500);
 	} finally {
 		loginSubmit.removeAttribute("disabled");
@@ -387,8 +405,10 @@ RegisterForm?.addEventListener("submit", async (e) => {
 		}
 	} catch (error) {
 		RegError.innerHTML = error.message;
+		RegError.classList.toggle("active");
 		setTimeout(() => {
 			RegError.innerHTML = "";
+			RegError.classList.remove("active");
 		}, 2500);
 	} finally {
 		registerSubmit.removeAttribute("disabled");
@@ -425,8 +445,10 @@ SqueezeForm?.addEventListener("submit", async (e) => {
 		}
 	} catch (error) {
 		squeezeError.innerHTML = error.message;
+		squeezeError.classList.toggle("active");
 		setTimeout(() => {
 			squeezeError.innerHTML = "";
+			squeezeError.classList.remove("active");
 		}, 2500);
 	} finally {
 		squeezeSubmit.removeAttribute("disabled");

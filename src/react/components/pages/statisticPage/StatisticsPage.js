@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import {
@@ -23,20 +22,20 @@ import {
 export const StatisticsPage = () => {
 	const [shortError, setShortError] = useState("");
 	const [statisticError, setStatisticError] = useState("");
+	const { register, handleSubmit, reset } = useForm({ mode: "onChange" });
+
 	const data = useSelector((state) => state.data.statistics);
 	const orderSetting = useSelector((state) => state.data.order);
 	const offset = useSelector((state) => state.data.offset);
 	const limit = useSelector((state) => state.data.limit);
+
 	const user = JSON.parse(localStorage.getItem("user"));
-	const { register, handleSubmit, reset } = useForm({ mode: "onChange" });
 
 	const dispatch = useDispatch();
 
 	const { apiData, getApiParams } = useGetStatisticsParams();
 	const { getShortenParams, shortenData } = useGetShortenParams();
-
 	const [setShort, { isLoading: shortenLoading }] = useShortenMutation();
-
 	const [getStatistics, { isLoading }] = useStatisticsMutation();
 
 	const shortenSubmit = (data) => {
@@ -126,7 +125,6 @@ export const StatisticsPage = () => {
 					/>
 				</Form>
 			</FormContainer>
-
 			<Statistics
 				data={data}
 				statisticError={statisticError}

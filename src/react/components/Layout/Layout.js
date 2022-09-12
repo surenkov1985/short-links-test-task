@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
-import { Link, Outlet, useNavigate } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import { authToggle, setDefaultState } from "../../store/dataReduser";
 import { Header, HeaderLink, HeaderRouterLink, Main } from "./style";
 

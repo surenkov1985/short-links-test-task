@@ -1,9 +1,9 @@
 import React from "react";
 import { HashRouter, Route, Routes } from "react-router-dom";
 import { Layout } from "./Layout/Layout";
-import { Auth } from "./pages/Auth";
-import { Register } from "./pages/Register";
-import { StatisticsPage } from "./pages/statisticPage/StatisticsPage";
+import { Auth } from "./pages/AuthPage/Auth";
+import { Register } from "./pages/RegisterPage/Register";
+import { StatisticsPage } from "./pages/StatisticPage/StatisticsPage";
 
 export const App = () => {
 	return (

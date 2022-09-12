@@ -7,7 +7,7 @@ export const StatisticContainer = styled.div`
 	flex-direction: column;
 	overflow-y: auto;
 	position: relative;
-	margin-top: 40px;
+	margin-top: 35px;
 	border: 1px solid #000000;
 	border-radius: 5px;
 `;
@@ -102,7 +102,7 @@ export const ShortLink = styled.a`
 	}
 `;
 
-export const ShoortCopiedBtn = styled.button`
+export const ShortCopiedBtn = styled.button`
 	border: none;
 	background: none;
 	cursor: pointer;
@@ -151,4 +151,16 @@ export const OffsetControlBtn = styled.button`
 			}
 		}
 	}
+`;
+
+export const ShortCopiedEl = styled.div`
+	position: absolute;
+	padding: 5px 10px;
+	background: #e6f0f7;
+	border-radius: 4px;
+	z-index: 3;
+	white-space: nowrap;
+	transform: translate(-100%, -100%);
+	top: ${(props) => props.top};
+	left: ${(props) => props.left};
 `;

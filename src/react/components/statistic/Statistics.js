@@ -1,25 +1,22 @@
 import React, { useEffect, useState } from "react";
+
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
+import { decOffset, incOffset, orderToggle } from "../../store/dataReduser";
+import { ErrorEl } from "../pages/StatisticPage/style";
+import { StatisticsControl } from "../StatisticControl/StatisticControl";
 import {
 	AiFillCaretDown,
 	AiFillCaretUp,
 	AiOutlineArrowLeft,
 	AiOutlineArrowRight,
 } from "react-icons/ai";
-import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
-import {
-	decOffset,
-	incOffset,
-	limitItemToggle,
-	orderToggle,
-} from "../../store/dataReduser";
-import { ErrorEl, SubmitEl } from "../pages/statisticPage/style";
-import { StatisticsControl } from "../statisticControl/StatisticControl";
 import {
 	CounterEl,
 	OffsetControl,
 	OffsetControlBtn,
-	ShoortCopiedBtn,
+	ShortCopiedBtn,
+	ShortCopiedEl,
 	ShortEl,
 	ShortLink,
 	SortControl,
@@ -41,6 +38,8 @@ export const Statistics = ({ data, statisticError, isLoading }) => {
 	const [counterOrder, setCounterOrder] = useState("asc");
 	const [copyText, setCopyText] = useState("");
 	const [copiedId, setCopiedId] = useState(null);
+	const [top, setTop] = useState(0);
+	const [left, setLeft] = useState(0);
 
 	const dispatch = useDispatch();
 
@@ -158,16 +157,22 @@ export const Statistics = ({ data, statisticError, isLoading }) => {
 						return (
 							<StatisticItem key={item.id}>
 								<TargetEl>
-									<ShortLink href={item.target}>
+									<ShortLink
+										href={item.target}
+										target="_blank"
+									>
 										{item.target}
 									</ShortLink>
 								</TargetEl>
 								<ShortEl>
-									<ShortLink href={item.short}>
+									<ShortLink
+										href={item.short}
+										target="_blank"
+									>
 										{item.short}
 									</ShortLink>
-									<ShoortCopiedBtn
-										onClick={() => {
+									<ShortCopiedBtn
+										onClick={(e) => {
 											navigator.clipboard.writeText(
 												item.short
 											);
@@ -176,15 +181,22 @@ export const Statistics = ({ data, statisticError, isLoading }) => {
 											setTimeout(() => {
 												setCopyText("");
 												setCopiedId(null);
-											}, 2000);
+											}, 1000);
+											setTop(e.nativeEvent.layerY);
+											setLeft(e.nativeEvent.layerX);
 										}}
 										disabled={isLoading}
 									>
 										Copy
-									</ShoortCopiedBtn>
-									{item.id === copiedId && (
-										<ShortEl>{copyText}</ShortEl>
-									)}
+										{item.id === copiedId && (
+											<ShortCopiedEl
+												top={`${top}px`}
+												left={`${left}px`}
+											>
+												{copyText}
+											</ShortCopiedEl>
+										)}
+									</ShortCopiedBtn>
 								</ShortEl>
 								<CounterEl>{item.counter}</CounterEl>
 							</StatisticItem>

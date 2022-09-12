@@ -4,8 +4,10 @@ import { limitItemToggle } from "../../store/dataReduser";
 import { InputEl, LimitSelect, Select, StatisticsControlEl } from "./style";
 
 export const StatisticsControl = ({ onChange, filterVal }) => {
+	
 	const dispatch = useDispatch();
 	const limit = useSelector((state) => state.data.limit);
+
 	return (
 		<StatisticsControlEl>
 			<InputEl

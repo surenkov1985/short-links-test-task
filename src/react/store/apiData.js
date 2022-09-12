@@ -47,5 +47,4 @@ export const apiData = createApi({
 	}),
 });
 
-export const { useLoginMutation, useRegisterMutation, useStatisticsMutation, useShortenMutation } =
-	apiData;
+export const { useLoginMutation, useRegisterMutation, useStatisticsMutation, useShortenMutation } = apiData;

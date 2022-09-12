@@ -1,0 +1,36 @@
+.header {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    column-gap: 10px;
+    padding: 20px 40px;
+    align-items: center;
+    background: #71aaff;
+    box-shadow: 0px 5px 10px 2px rgba(121, 173, 214, 0.22);
+    flex-grow: 0;
+
+    &__logoutBtn {
+        display: none;
+        font-size: 16px;
+        font-weight: 500;
+
+        &:hover {
+            color: #FFFFFF;
+            text-decoration: underline;
+        }
+
+        &.active {
+            display: block;
+        }
+    }
+
+    &__reactLink {
+        font-size: 16px;
+        font-weight: 500;
+
+        &:hover {
+            color: #FFFFFF;
+            text-decoration: underline;
+        }
+    }
+}
