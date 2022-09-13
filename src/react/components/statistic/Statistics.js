@@ -92,7 +92,6 @@ export const Statistics = ({ data, statisticError, isLoading }) => {
 				);
 			})
 		);
-		console.log(statisticData, data);
 	}, [filterValue, data]);
 
 	return (

@@ -253,11 +253,11 @@ function buildStatistics(data) {
 			span.innerHTML = `URL ${url} copied`;
 			this.appendChild(span);
 
-			navigator.clipboard.writeText(url);
-
-			setTimeout(() => {
-				this.removeChild(span);
-			}, 1500);
+			navigator.clipboard.writeText(url).then(() => {
+				setTimeout(() => {
+					this.removeChild(span);
+				}, 1500);
+			});
 		});
 	});
 

@@ -14,6 +14,14 @@ export const ErrorEl = styled.div`
 	background: rgba(250, 0, 0, 0.05);
 	position: absolute;
 	bottom: 150%;
+
+	@media (max-width: 1000px) {
+		width: 60%;
+	}
+
+	@media (max-width: 800px) {
+		width: 100%;
+	}
 `;
 
 export const FormContainer = styled.div`
@@ -22,12 +30,28 @@ export const FormContainer = styled.div`
 	row-gap: 20px;
 	position: relative;
 	margin-top: 50px;
+
+	@media (max-width: 768px) {
+		margin-top: 35px;
+	}
 `;
 
 export const Form = styled.form`
 	display: flex;
-	column-gap: 10px;
+	gap: 10px;
 	width: 40%;
+
+	@media (max-width: 1000px) {
+		width: 60%;
+	}
+
+	@media (max-width: 800px) {
+		width: 100%;
+	}
+
+	@media (max-width: 500px) {
+		flex-direction: column;
+	}
 `;
 
 export const InputEl = styled.input`
@@ -50,6 +74,8 @@ export const SubmitEl = styled.input`
 		color: #ffffff;
 		border-color: #71aaff;
 	}
+
+	@media (max-width: 500px) {
+		width: 100%;
+	}
 `;
-
-

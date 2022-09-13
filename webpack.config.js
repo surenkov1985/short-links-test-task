@@ -126,7 +126,7 @@ const dev = {
 		},
 		open: true,
 		port: 3000,
-		host: "local-ip",
+		host: "localhost",
 		compress: false,
 		hot: true,
 		liveReload: true,

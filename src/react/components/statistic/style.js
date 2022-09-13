@@ -5,7 +5,7 @@ export const StatisticContainer = styled.div`
 	max-height: 400px;
 	display: flex;
 	flex-direction: column;
-	overflow-y: auto;
+	overflow: auto;
 	position: relative;
 	margin-top: 35px;
 	border: 1px solid #000000;
@@ -22,52 +22,82 @@ export const StatisticHeader = styled.div`
 	top: 0;
 	flex-grow: 0;
 	z-index: 2;
+
+	@media (max-width: 720px) {
+		width: max-content;
+	}
 `;
 
 export const TargetEl = styled.div`
 	width: 55%;
+	min-width: 250px;
 	padding: 10px 20px;
 	border-right: 1px solid #000000;
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
+	flex-wrap: nowrap;
 
 	& > span {
 		font-weight: 500;
+	}
+
+	@media (max-width: 720px) {
+		padding: 10px;
+		width: 250px;
 	}
 `;
 
 export const ShortEl = styled.div`
 	width: 35%;
+	min-width: 300px;
 	padding: 10px 20px;
 	border-right: 1px solid #000000;
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
+	flex-wrap: nowrap;
 
 	& > span {
 		font-weight: 500;
+	}
+
+	@media (max-width: 720px) {
+		padding: 10px;
+		width: 300px;
 	}
 `;
 
 export const CounterEl = styled.div`
 	width: 10%;
+	min-width: 100px;
 	padding: 10px 20px;
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
+	flex-wrap: nowrap;
 
 	& > span {
 		font-weight: 500;
+	}
+
+	@media (max-width: 720px) {
+		padding: 10px;
+		width: 100px;
 	}
 `;
 export const StatisticItem = styled.li`
 	width: 100%;
 	display: flex;
 	align-items: center;
+	background: #ffffff;
 
 	&:not(:last-child) {
 		border-bottom: 1px solid #000000;
+	}
+
+	@media (max-width: 720px) {
+		width: max-content;
 	}
 `;
 
@@ -115,6 +145,10 @@ export const ShortCopiedBtn = styled.button`
 export const OffsetControl = styled.div`
 	display: flex;
 	column-gap: 10px;
+
+	@media (max-width: 500px) {
+		justify-content: space-between;
+	}
 `;
 
 export const OffsetControlBtn = styled.button`
