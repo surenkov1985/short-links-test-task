@@ -18,6 +18,7 @@
 
 body {
     width: 100%;
+    min-width: 375px;
     height: 100vh;
     display: flex;
     flex-direction: column;
@@ -29,5 +30,12 @@ main {
     flex-direction: column;
     padding: 50px 40px;
     flex-grow: 1;
-}
 
+    @media (max-width: 768px) {
+        padding: 40px 30px;
+    }
+
+    @media (max-width: 500px) {
+        padding: 30px 20px;
+    }
+}

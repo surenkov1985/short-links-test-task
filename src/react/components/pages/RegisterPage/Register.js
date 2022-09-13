@@ -76,7 +76,7 @@ export const Register = () => {
 							type="text"
 							placeholder="Login"
 							required
-							autoComplete="false"
+							autoComplete="sername"
 							{...register("username")}
 						/>
 					</Label>
@@ -86,7 +86,7 @@ export const Register = () => {
 							type="password"
 							placeholder="Password"
 							required
-							autoComplete="false"
+							autoComplete="current-password"
 							{...register("password")}
 						/>
 					</Label>

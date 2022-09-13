@@ -26,12 +26,12 @@ export const Layout = () => {
 	return (
 		<>
 			<Header>
+				<HeaderLink href="./index.html">JavaScript</HeaderLink>
 				{isAuth && (
 					<HeaderRouterLink to="login" onClick={logoutHandler}>
 						Logout
 					</HeaderRouterLink>
 				)}
-				<HeaderLink href="./index.html">JavaScript</HeaderLink>
 			</Header>
 			<Main>
 				<Outlet />

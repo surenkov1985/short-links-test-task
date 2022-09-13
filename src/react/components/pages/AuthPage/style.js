@@ -22,6 +22,11 @@ export const Form = styled.form`
 	row-gap: 30px;
 	margin-top: 60px;
 	position: relative;
+
+	@media (max-width: 560px) {
+		width: 100%;
+		margin-top: 50px;
+	}
 `;
 export const LoginErrorEl = styled.div`
 	width: 500px;
@@ -32,6 +37,10 @@ export const LoginErrorEl = styled.div`
 	background: rgba(250, 0, 0, 0.05);
 	position: absolute;
 	top: -60px;
+
+	@media (max-width: 560px) {
+		width: 100%;
+	}
 `;
 
 export const Label = styled.label`

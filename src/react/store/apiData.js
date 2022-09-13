@@ -40,11 +40,16 @@ export const apiData = createApi({
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",
-					Authorization: data.authData
-				}
-			})
-		})
+					Authorization: data.authData,
+				},
+			}),
+		}),
 	}),
 });
 
-export const { useLoginMutation, useRegisterMutation, useStatisticsMutation, useShortenMutation } = apiData;
+export const {
+	useLoginMutation,
+	useRegisterMutation,
+	useStatisticsMutation,
+	useShortenMutation,
+} = apiData;

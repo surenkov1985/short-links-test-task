@@ -61,10 +61,9 @@ export const Auth = () => {
 						<InputEl
 							type="text"
 							placeholder="Login"
-							defaultValue=""
 							{...register("username")}
 							required
-							autoComplete="false"
+							autoComplete="username"
 						/>
 					</Label>
 					<Label>
@@ -72,10 +71,9 @@ export const Auth = () => {
 						<InputEl
 							type="password"
 							placeholder="Password"
-							defaultValue=""
 							{...register("password")}
 							required
-							autoComplete="false"
+							autoComplete="current-password"
 						/>
 					</Label>
 					<SubmitEl

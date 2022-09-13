@@ -12,8 +12,8 @@ let order = { order: "asc", val: "target" },
 	offset = 0,
 	limit = 5,
 	counter = 0,
-	ascIcon = "&#9660",
-	descIcon = "&#9650",
+	ascIcon = "&#9660;",
+	descIcon = "&#9650;",
 	statisticData = [],
 	timer = 0;
 
@@ -225,8 +225,8 @@ function buildStatistics(data) {
 		counterEl.className = "statistic__counterEl";
 		statisticsItem.className = "statistic__item";
 		copy.className = "linkCopyBtn";
-		target.className = "target-link"
-		short.className = "short-link"
+		target.className = "target-link";
+		short.className = "short-link";
 
 		target.href = targetUrl;
 		target.target = "_blank";
@@ -316,8 +316,6 @@ filterInput?.addEventListener("input", function (e) {
 
 LoginForm?.addEventListener("submit", async (e) => {
 	e.preventDefault();
-
-	console.log(111);
 
 	const username = LoginForm.querySelector('[name="username"]'),
 		password = LoginForm.querySelector('[name="password"]');

@@ -10,6 +10,14 @@ export const Header = styled.header`
 	background: #71aaff;
 	box-shadow: 0px 5px 10px 2px rgba(121, 173, 214, 0.22);
 	flex-grow: 0;
+
+	@media (max-width: 768px) {
+		padding: 20px 30px;
+	}
+
+	@media (max-width: 500px) {
+		padding: 20px 20px;
+	}
 `;
 
 export const HeaderLink = styled.a`
@@ -37,4 +45,12 @@ export const Main = styled.main`
 	row-gap: 40px;
 	background: #fafafa;
 	flex-grow: 1;
+
+	@media (max-width: 768px) {
+		padding: 40px 30px;
+	}
+
+	@media (max-width: 500px) {
+		padding: 30px 20px;
+	}
 `;

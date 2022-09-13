@@ -12,8 +12,8 @@
 	</head>
 	<body>
 		<header class="header">
-			<a href="" class="header__logoutBtn">Logout</a>
 			<a href="./app.html" class="header__reactLink">React</a>
+			<a href="" class="header__logoutBtn">Logout</a>
 		</header>
 		<main>
 			<div class="loginPage login active">
@@ -22,26 +22,32 @@
 					<form class="login__form">
 						<span class="login__error" style="color: red"></span>
 						<label class="login__label">
-							<p class="login__labelTitle">Username</p>
+							<span class="login__labelTitle">Username</span>
 							<input
 								class="login__input"
 								type="text"
 								name="username"
 								placeholder="Username"
 								required
+								autocomplete="username"
 							/>
 						</label>
-						<label  class="login__label">
-							<p class="login__labelTitle">Password</p>
+						<label class="login__label">
+							<span class="login__labelTitle">Password</span>
 							<input
 								class="login__input"
 								type="password"
 								name="password"
-								placeholder="password"
+								placeholder="Password"
 								required
+								autocomplete="current-password"
 							/>
 						</label>
-						<input class="login__submit" type="submit" value="Sign In" />
+						<input
+							class="login__submit"
+							type="submit"
+							value="Sign In"
+						/>
 					</form>
 					<p class="login__navigate">
 						Don`t have an account?
@@ -55,27 +61,36 @@
 					<form class="register__form">
 						<span class="register__error" style="color: red"></span>
 						<label class="register__label">
-							<p class="register__labelTitle">Username</p>
+							<span class="register__labelTitle">Username</span>
 							<input
-							class="register__input"
+								class="register__input"
 								type="text"
 								name="username"
 								placeholder="Username"
+								required
+								autocomplete="username"
 							/>
 						</label>
 						<label class="register__label">
-							<p  class="register__labelTitle">Password</p>
+							<span class="register__labelTitle">Password</span>
 							<input
 								class="register__input"
 								type="password"
 								name="password"
 								placeholder="Password"
+								required
+								autocomplete="current-password"
 							/>
 						</label>
-						<input class="register__submit" type="submit" value="Sign Up" />
+						<input
+							class="register__submit"
+							type="submit"
+							value="Sign Up"
+						/>
 					</form>
 					<p class="register__navigate">
-						Have an account? <button class="register__loginBtn">Sign In</button>
+						Have an account?
+						<button class="register__loginBtn">Sign In</button>
 					</p>
 				</div>
 			</div>
@@ -83,20 +98,33 @@
 				<h1 class="statistics__title">STATISTICS</h1>
 				<form id="squeezeForm" class="statistics__squeeze-form squeeze">
 					<div class="squeeze__error"></div>
-					<label class="squeeze__label">
-						<input class="squeeze__input" type="text" name="link" placeholder="Shorten your link" />
-						<input class="squeeze__submit" type="submit" value="Shorten" />
-					</label>
+					<div class="squeeze__label">
+						<input
+							class="squeeze__input"
+							type="text"
+							name="link"
+							placeholder="Shorten your link"
+						/>
+						<input
+							class="squeeze__submit"
+							type="submit"
+							value="Shorten"
+						/>
+					</div>
 				</form>
 				<div class="statistics__settings">
-					<input class="statistics__filter-input" type="text" placeholder="Filter by long URL, short URL or clicks...">
+					<input
+						class="statistics__filter-input"
+						type="text"
+						placeholder="Filter by long URL, short URL or clicks..."
+					/>
 
 					<label class="statistics__limit-label">
 						<span class="statistics__limit-title">Item</span>
 						<select name="limit" class="statistics__limit-select">
-							<option value=5>5</option>
-							<option value=10>10</option>
-							<option value=20>20</option>
+							<option value="5">5</option>
+							<option value="10">10</option>
+							<option value="20">20</option>
 						</select>
 					</label>
 				</div>
@@ -106,25 +134,43 @@
 						<div class="statistic__header">
 							<div class="statistic__link-header">
 								<span class="statistic__title">Long URL</span>
-								<button data-order="asc" data-val="target" class="statistic__sortBtn asc active">&#9660</button>
+								<button
+									data-order="asc"
+									data-val="target"
+									class="statistic__sortBtn asc active"
+								>
+									&#9660;
+								</button>
 							</div>
 							<div class="statistic__short-header">
 								<span class="statistic__title">Short URL</span>
-								<button data-order="asc" data-val="short" class="statistic__sortBtn asc active">&#9660</button>
+								<button
+									data-order="asc"
+									data-val="short"
+									class="statistic__sortBtn asc active"
+								>
+									&#9660;
+								</button>
 							</div>
 							<div class="statistic__counter-header">
 								<span class="statistic__title">Clicks</span>
-								<button data-order="asc" data-val="counter" class="statistic__sortBtn asc active">&#9660</button>
+								<button
+									data-order="asc"
+									data-val="counter"
+									class="statistic__sortBtn asc active"
+								>
+									&#9660;
+								</button>
 							</div>
 						</div>
-						<ul class="statistic__list-head">
+						<div class="statistic__list-head">
 							<ul class="statistic__list"></ul>
-						</ul>
+						</div>
 					</div>
 				</div>
 				<div class="statistic__control">
-					<button class="prev">&#8592 Prev</button>
-					<button class="next">Next &#8594</button>
+					<button class="prev">&#8592; Prev</button>
+					<button class="next">Next &#8594;</button>
 				</div>
 			</div>
 		</main>
