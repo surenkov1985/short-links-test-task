@@ -11,7 +11,6 @@ const corsOptions = {
 	optionSuccessStatus: 200,
 };
 
-const routes = require("./routes/short.routes");
 const app = express();
 const port = 5000;
 
@@ -32,3 +31,5 @@ app.use("/", router);
 app.listen(port, () => {
 	console.log("Hello");
 });
+
+
