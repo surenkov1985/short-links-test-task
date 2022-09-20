@@ -7,9 +7,9 @@ const tokenSecret = "myWebTokenSecret";
 const bcrypt = require("bcryptjs");
 
 const pool = mysql.createPool({
-	host: "localhost",
-	user: "root",
-	database: "links",
+	host: "31.31.196.109",
+	user: "u1588120_root",
+	database: "u1588120_database",
 	password: "Surenkov1985@gmail.com",
 });
 

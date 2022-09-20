@@ -3,13 +3,15 @@ const router = require("./routes/short.routes");
 const cors = require("cors");
 const path = require("path");
 
+const mysql = require("mysql2");
+
 const corsOptions = {
 	origin: "*",
 	credentials: true,
 	optionSuccessStatus: 200,
 };
 
-const router = require("./routes/short.routes");
+const routes = require("./routes/short.routes");
 const app = express();
 const port = 5000;
 
