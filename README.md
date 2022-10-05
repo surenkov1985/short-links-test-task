@@ -2,7 +2,7 @@
 
 ## Запуск в браузере
 
-[Демо](http://short.mich-man.ru)
+[Демо](http://short.mich-man.ru/index.html)
 
 - Скачиваем файлы из репозитория
 - В терминале открытого проекта установить node_modules :

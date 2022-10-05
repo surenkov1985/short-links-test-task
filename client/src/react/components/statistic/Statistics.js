@@ -107,11 +107,6 @@ export const Statistics = ({ data, statisticError, isLoading }) => {
 		setLeft(e.nativeEvent.layerX);
 	};
 
-	// const clickCounterHandler = (e, item) => {
-	// 	console.log(item);
-	// 	setCounter(item.short).unwrap();
-	// };
-
 	return (
 		<>
 			<StatisticsControl
@@ -185,9 +180,6 @@ export const Statistics = ({ data, statisticError, isLoading }) => {
 									<ShortLink
 										href={item.short}
 										target="_blank"
-										// onClick={(e) =>
-										// 	clickCounterHandler(e, item)
-										// }
 									>
 										{item.short}
 									</ShortLink>
